@@ -1,0 +1,62 @@
+# ---------------------------------------------------------------------------- #
+#                                SIMULATION RUN                                #
+# ---------------------------------------------------------------------------- #
+#
+# - No debugging mode (random)
+# - Isotropic flux generation from a surface
+# - Electrons protons alpha muons
+#
+# - energy spectrum flat
+#
+#
+
+/particleEnergyRandom/DebbuggingModeIsOn true
+/particleEnergyRandom/IsExponential false
+
+ # ---------------------------------------------------------------------------- #
+ #                                   ELECTRONS                                  #
+ # ---------------------------------------------------------------------------- #
+
+/gun/particle e-
+/particleEnergyRandom/Ek_min 0.01
+/particleEnergyRandom/Ek_max 50
+
+/NameOfFile/NameOfFile ../DST_13042023/13_04_2023_ELECTRON
+/run/beamOn 1000000
+
+ # ---------------------------------------------------------------------------- #
+ #                                    PROTONS                                   #
+ # ---------------------------------------------------------------------------- #
+
+/gun/particle proton
+/particleEnergyRandom/Ek_min 0.01
+/particleEnergyRandom/Ek_max 200
+
+/NameOfFile/NameOfFile ../DST_13042023/13_04_2023_PROTON
+/run/beamOn 1000000
+
+ # ---------------------------------------------------------------------------- #
+ #                                     ALPHA                                    #
+ # ---------------------------------------------------------------------------- #
+
+/gun/particle alpha
+/particleEnergyRandom/Ek_min 0.01
+/particleEnergyRandom/Ek_max 700
+
+/NameOfFile/NameOfFile ../DST_13042023/13_04_2023_ALPHA
+/run/beamOn 1000000
+
+ # ---------------------------------------------------------------------------- #
+ #                                     MUONS                                    #
+ # ---------------------------------------------------------------------------- #
+
+/gps/particle mu-
+/gps/ene/min 10 GeV
+/gps/ene/max 100 GeV
+
+/gun/particle mu-
+/particleEnergyRandom/Ek_min 10000
+/particleEnergyRandom/Ek_max 1000000
+
+/NameOfFile/NameOfFile ../DST_13042023/13_04_2023_MUON
+/run/beamOn 1000000

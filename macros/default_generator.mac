@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------------------- #
+#                    GENERAL PARTICLE SOURCE DEFAULT CONFIOG                   #
+# ---------------------------------------------------------------------------- #
+/gps/verbose 2
+/gps/particle geantino
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0 0 -2.3 cm
+/gps/pos/halfx 4.0 cm
+/gps/pos/halfy 4.0 cm
+/gps/ang/type iso
+/gps/ene/type Lin
+/gps/ene/min 1 MeV
+/gps/ene/max 100 MeV
+/gps/ene/gradient 0
+/gps/ene/intercept 1
+/gps/ang/maxtheta 90 deg
+/gps/ang/mintheta 0 deg
+
+
+# ---------------------------------------------------------------------------- #
+#                    PARTICLE GUN FOR DEBUGGING MODE CONFIOG                   #
+# ---------------------------------------------------------------------------- #
+
+/gun/particle proton
+/particleEnergyRandom/Ek_min 100
+/particleEnergyRandom/Ek_max 100
+/particleEnergyRandom/DebbuggingModeIsOn true
+
+
+# ---------------------------------------------------------------------------- #
+#                       DEFAULT FILE NAME FOR SAVING DATA                      #
+# ---------------------------------------------------------------------------- #
+/NameOfFile/NameOfFile ProvaFile.root
+
+
+

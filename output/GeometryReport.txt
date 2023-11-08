@@ -1,0 +1,35 @@
+Report of the geometry of the detector
+======================================
+
+Local Date and Time is: Wed Nov  8 09:45:14 2023
+
+Compilation Date and Time: Nov  8 2023 09:45:09
+
+Dimensions are in cm unless otherwise specified
+
+World dimensions: 600 x 600 x 600 cm
+Container position: 0 x 0 x 0 cm
+Container dimensions: 200 x 200 x 200 cm
+Thin detector thickness: 100 um
+Plastic scintillator thickness: 1 cm
+Thin detector plane position: 0 x 0 x 0 cm
+First plastic scintillator position : 0 x 0 x 0.81 cm
+Drilled Veto thickness: 0.8 cm
+Drilled Veto position: 0 x 0 x -0.91 cm
+Plastic scintillators 
+
+
+Scintillator 0 placed at 8.1 mm
+Angles Direction
+================================================
+ix 	 iy 	 phi 	 theta 	 x 	 y 	 x' 	 y'
+0	0	-153.435	21.0819	-1.93333	-1.45
+1	0	-90	9.42809	-3.55271e-16	-1.45
+2	0	-26.5651	21.0819	1.93333	-1.45
+0	1	153.435	21.0819	-1.93333	1.45
+1	1	90	9.42809	-3.55271e-16	1.45
+2	1	26.5651	21.0819	1.93333	1.45
+LThin =  0.01
+Total mass = 0.782181 kg
+GDML file generated
+GDML file name: ../CadGeometry/DrilledVeto_08-11-2023_09-45-15.gdml

@@ -1,0 +1,43 @@
+/gps/verbose 0
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0 0 -2.3 cm
+/gps/pos/halfx 4.0 cm
+/gps/pos/halfy 4.0 cm
+/gps/ang/type iso
+/gps/ene/type Lin
+/gps/ene/gradient 0
+/gps/ene/intercept 1
+/gps/ang/maxtheta 90 deg
+/gps/ang/mintheta 0 deg
+
+
+
+/particleEnergyRandom/DebbuggingModeIsOn true
+
+
+/gun/particle e-
+/particleEnergyRandom/Ek_min 0.09
+/particleEnergyRandom/Ek_max 50.0
+/NameOfFile/NameOfFile ../DST_29042023/DST_LEM-100_29042023-ELECTRON
+#/run/beamOn 1000000
+
+
+/gun/particle proton
+/particleEnergyRandom/Ek_min 3.
+/particleEnergyRandom/Ek_max 140.
+/gps/ene/min 3 MeV
+/gps/ene/max 140 MeV
+/NameOfFile/NameOfFile ../DST_29042023/DST_LEM-100_29042023-PROTON
+/run/beamOn 1000000
+
+/gun/particle alpha
+/particleEnergyRandom/Ek_min 10.
+/particleEnergyRandom/Ek_max 500.0
+/gps/ene/min 10 MeV
+/gps/ene/max 500 MeV
+/NameOfFile/NameOfFile ../DST_29042023/DST_LEM-100_29042023-ALPHA
+/run/beamOn 1000000
+
+
+
