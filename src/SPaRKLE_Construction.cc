@@ -122,7 +122,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   myfile << "Compilation Date and Time: " << __DATE__ << " " << __TIME__ << endl << endl;
 
 
-  G4double MaxStepLength = 1. * um;
+  G4double MaxStepLength = 1. * mm;
 
   G4UserLimits *MaxStep = new G4UserLimits();
   MaxStep -> SetMaxAllowedStep(MaxStepLength);

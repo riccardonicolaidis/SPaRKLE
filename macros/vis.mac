@@ -37,7 +37,7 @@
 /vis/set/textLayout    # Revert to normal (left adjusted) layout
 /vis/set/textColour    # Revert to default text colour (blue)
 
-/vis/viewer/set/background white
+#/vis/viewer/set/background white
 
 /vis/geometry/set/lineWidth all 3
 
@@ -87,7 +87,7 @@
 /vis/geometry/set/colour logicPCBThin      0 1. 0.4 0.2 1.
 /vis/geometry/set/colour logicLateralVeto  0 0.3 0.8 8    1.
 
-/vis/viewer/addCutawayPlane 0 0 0 m 1 0 0
+#/vis/viewer/addCutawayPlane 0 0 0 m 1 0 0
 
 /vis/viewer/set/hiddenMarker false
 
