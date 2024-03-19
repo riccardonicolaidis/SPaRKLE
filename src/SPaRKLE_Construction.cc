@@ -122,10 +122,15 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   myfile << "Compilation Date and Time: " << __DATE__ << " " << __TIME__ << endl << endl;
 
 
-  G4double MaxStepLength = 1. * um;
+
+  G4double MaxStepLength_Si = 20. * um;
+  G4double MaxStepLength = 1. * mm;
 
   G4UserLimits *MaxStep = new G4UserLimits();
   MaxStep -> SetMaxAllowedStep(MaxStepLength);
+
+  G4UserLimits *MaxStep_Si = new G4UserLimits();
+  MaxStep_Si -> SetMaxAllowedStep(MaxStepLength_Si);
   
 
   TotalMass = 0;
@@ -313,7 +318,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   
 
   logicSiDetThin = new G4LogicalVolume(solidSiDetThin, SiMat, "logicSiDetThin");
-  logicSiDetThin -> SetUserLimits(MaxStep);
+  logicSiDetThin -> SetUserLimits(MaxStep_Si);
   TotalMass += (logicSiDetThin->GetMass())*16/kg;
   
   
@@ -557,36 +562,36 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
 
 
   
-  if(GENERATE_GDML)
-  {
-    G4GDMLParser parser;
+  // if(GENERATE_GDML)
+  // {
+  //   G4GDMLParser parser;
 
-    // Create a string with date and time
-    time_t rawtime;
-    struct tm * timeinfo;
-    char buffer [80];
-    time (&rawtime);
-    timeinfo = localtime (&rawtime);
-    strftime (buffer,80,"%d-%m-%Y_%H-%M-%S",timeinfo);
-    std::string str(buffer);
+  //   // Create a string with date and time
+  //   time_t rawtime;
+  //   struct tm * timeinfo;
+  //   char buffer [80];
+  //   time (&rawtime);
+  //   timeinfo = localtime (&rawtime);
+  //   strftime (buffer,80,"%d-%m-%Y_%H-%M-%S",timeinfo);
+  //   std::string str(buffer);
 
-    // Create a string with the name of the file + date and time
-    std::string str1 = "../CadGeometry/SPaRKLE_geometry_";
-    std::string str2 = ".gdml";
-    std::string str3 = str1 + str + str2;
+  //   // Create a string with the name of the file + date and time
+  //   std::string str1 = "../CadGeometry/SPaRKLE_geometry_";
+  //   std::string str2 = ".gdml";
+  //   std::string str3 = str1 + str + str2;
 
-    parser.Write(str3, physContainer);
+  //   parser.Write(str3, physContainer);
 
 
-    str1 = "../CadGeometry/DrilledVeto_";
-    str3 = str1 + str + str2;
+  //   str1 = "../CadGeometry/DrilledVeto_";
+  //   str3 = str1 + str + str2;
 
-    parser.Write(str3, physDrilledVeto);
+  //   parser.Write(str3, physDrilledVeto);
 
-    myfile << "GDML file generated" << G4endl;
-    myfile << "GDML file name: " << str3 << G4endl;
-    myfile.close();
-  }
+  //   myfile << "GDML file generated" << G4endl;
+  //   myfile << "GDML file name: " << str3 << G4endl;
+  //   myfile.close();
+  // }
   
 
   

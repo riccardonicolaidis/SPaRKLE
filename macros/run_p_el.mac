@@ -1,0 +1,43 @@
+# ---------------------------------------------------------------------------- #
+#                    GENERAL PARTICLE SOURCE PROTON                            #
+# ---------------------------------------------------------------------------- #
+
+/particleEnergyRandom/DebbuggingModeIsOn false
+
+
+/gps/verbose 0
+/gps/particle proton
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0 0 -2.3 cm
+/gps/pos/halfx 40.0 cm
+/gps/pos/halfy 40.0 cm
+/gps/ang/type iso
+
+
+/gps/ene/type Pow
+/gps/ene/alpha -1.0
+
+
+/gps/ene/min 1 MeV
+/gps/ene/max 500 MeV
+/gps/ang/maxtheta 90 deg
+/gps/ang/mintheta 0 deg
+
+/NameOfFile/NameOfFile GPSproton_run
+
+/run/printProgress 10000000
+/run/beamOn 100000000
+
+
+# ---------------------------------------------------------------------------- #
+#                     GENERAL PARTICLE SOURCE ELECTRON                         #
+# ---------------------------------------------------------------------------- #
+/gps/particle e-
+/gps/ene/min 0.05 MeV
+/gps/ene/max 500 MeV
+
+/NameOfFile/NameOfFile GPSelectron_run
+
+/run/printProgress 10000000
+/run/beamOn 100000000

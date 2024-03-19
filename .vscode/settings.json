@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "EffectiveArea.C": "cpp",
+        "cmath": "cpp",
+        "new": "cpp",
+        "Emean.C": "cpp"
+    }
+}

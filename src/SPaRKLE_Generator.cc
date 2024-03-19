@@ -54,12 +54,10 @@ void SPaRKLE_PrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
 
   // FILL ALL THE DETAILS REQUIRED FOR THE ANALYSIS
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-
   
   
   // TEST CONFIGURATION comment if necessary
-  if(DebuggingModeIsOn)
-  {
+  if(DebuggingModeIsOn){
     LActive            = 14.*cm;
     zgen               =  -2.5*cm;
     NxHoles            = NX_SENSORS;
@@ -115,6 +113,11 @@ void SPaRKLE_PrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
 
     }
 
+    // Avoid to use the GetH1ID() method since in the User guide says:
+    //    "it is less efficient and it is not recommended for frequently called functions as e.g. Fill() "
+    man -> FillH1(0, Ek_random); //Proton generated spectra
+    man -> FillH1(1, Ek_random); // Electron generated spectra
+
 
     man -> FillNtupleDColumn(0, 0, RndNum);
     man -> FillNtupleDColumn(0, 1, Ek_random);
@@ -128,42 +131,35 @@ void SPaRKLE_PrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
     fParticleGun -> SetParticleEnergy(Ek_random);
     fParticleGun  -> GeneratePrimaryVertex(anEvent);
 
-    if(Iy < (NyHoles-1))
-    {
-      ++Iy;
-    } else
-    {
+    if(Iy < (NyHoles-1)) ++Iy;
+    else{
       Iy = 0;
-      if(Ix < (NxHoles-1))
-      {
-        ++Ix;
-      } 
-      else 
-      {
-        Ix = 0;
-      } 
+      if(Ix < (NxHoles-1)) ++Ix;
+      else Ix = 0;
     }
   } 
-  else
-  {
+  else {
     fParticleSource -> GeneratePrimaryVertex(anEvent);
-    G4ThreeVector ParticlePosition = fParticleSource -> GetParticlePosition();
-    G4ThreeVector ParticleMomentumDirection = fParticleSource -> GetParticleMomentumDirection();
-    man -> FillNtupleDColumn(0, 0, 0);
-    man -> FillNtupleDColumn(0, 1, fParticleSource -> GetParticleEnergy());
-    man -> FillNtupleDColumn(0, 2, ParticlePosition.getX());
-    man -> FillNtupleDColumn(0, 3, ParticlePosition.getY());
-    man -> FillNtupleDColumn(0, 4, ParticlePosition.getZ());
-    man -> FillNtupleDColumn(0, 5, ParticleMomentumDirection.getX());
-    man -> FillNtupleDColumn(0, 6, ParticleMomentumDirection.getY());
-    man -> FillNtupleDColumn(0, 7, ParticleMomentumDirection.getZ());
+    
+
+    // Avoid to use the GetH1ID() method since in the User guide says:
+    //    "it is less efficient and it is not recommended for frequently called functions as e.g. Fill() "
+    man -> FillH1(0, fParticleSource -> GetParticleEnergy()); //Proton generated spectra
+    man -> FillH1(1, fParticleSource -> GetParticleEnergy()); // Electron generated spectra
+
+
+    // G4ThreeVector ParticlePosition = fParticleSource -> GetParticlePosition();
+    // G4ThreeVector ParticleMomentumDirection = fParticleSource -> GetParticleMomentumDirection();
+    
+    // man -> FillNtupleDColumn(0, 0, 0);
+    // man -> FillNtupleDColumn(0, 1, fParticleSource -> GetParticleEnergy());
+    // man -> FillNtupleDColumn(0, 2, ParticlePosition.getX());
+    // man -> FillNtupleDColumn(0, 3, ParticlePosition.getY());
+    // man -> FillNtupleDColumn(0, 4, ParticlePosition.getZ());
+    // man -> FillNtupleDColumn(0, 5, ParticleMomentumDirection.getX());
+    // man -> FillNtupleDColumn(0, 6, ParticleMomentumDirection.getY());
+    // man -> FillNtupleDColumn(0, 7, ParticleMomentumDirection.getZ());
   }
-  
-  // COUNTER
-  if(ParticleNumber%20000 == 0)
-  {
-    G4cout << ParticleNumber/1000 << "e3" << G4endl;
-  }
-  ++ParticleNumber;
+
   
 }

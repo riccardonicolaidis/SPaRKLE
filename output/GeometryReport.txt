@@ -1,9 +1,9 @@
 Report of the geometry of the detector
 ======================================
 
-Local Date and Time is: Wed Nov  8 09:45:14 2023
+Local Date and Time is: Tue Mar 12 21:01:49 2024
 
-Compilation Date and Time: Nov  8 2023 09:45:09
+Compilation Date and Time: Mar  6 2024 00:31:39
 
 Dimensions are in cm unless otherwise specified
 
@@ -23,13 +23,7 @@ Scintillator 0 placed at 8.1 mm
 Angles Direction
 ================================================
 ix 	 iy 	 phi 	 theta 	 x 	 y 	 x' 	 y'
-0	0	-153.435	21.0819	-1.93333	-1.45
-1	0	-90	9.42809	-3.55271e-16	-1.45
-2	0	-26.5651	21.0819	1.93333	-1.45
-0	1	153.435	21.0819	-1.93333	1.45
-1	1	90	9.42809	-3.55271e-16	1.45
-2	1	26.5651	21.0819	1.93333	1.45
+0	0	-90	9.42809	0	-1.45
+0	1	90	9.42809	0	1.45
 LThin =  0.01
-Total mass = 0.782181 kg
-GDML file generated
-GDML file name: ../CadGeometry/DrilledVeto_08-11-2023_09-45-15.gdml
+Total mass = 0.792127 kg

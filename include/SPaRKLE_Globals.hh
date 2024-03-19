@@ -3,7 +3,7 @@
 #define MYGLOBALS_HH
 
 // Set the number of sensors in the X-Y plane
-#define NX_SENSORS 3
+#define NX_SENSORS 1
 #define NY_SENSORS 2
 #define N_TOTAL_SENSORS (NX_SENSORS*NY_SENSORS)
 

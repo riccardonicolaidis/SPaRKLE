@@ -18,6 +18,17 @@ SPaRKLE_RunAction::SPaRKLE_RunAction(SPaRKLE_DetectorConstruction* det, SPaRKLE_
 
     G4int jCopyNo = 0;
 
+    //Histogram of the generated spectra
+    const int nbins = 100;
+    const double Ek_minp = 1, Ek_maxp = 500; //proton min and max energy in MeV
+    const double Ek_mine = 0.05, Ek_maxe = 500; //electron min and max energy in MeV
+
+    G4int idP = man->CreateH1("Gen_spectra_P", "Proton generated spectra", nbins, Ek_minp, Ek_maxp, "none", "none", "log");     //id number = 0
+    G4int idE = man->CreateH1("Gen_spectra_e", "Electron generated spectra", nbins, Ek_mine, Ek_maxe, "none", "none", "log");   //id number = 1 log
+
+    printf("Creation of the histos: idP = %d ; idE = %d \n", idP, idE);
+
+
     // Ntuple particle generator
     man -> CreateNtuple("Edep","Edep");
     man -> CreateNtupleDColumn("RandNumber");       // 0
@@ -69,7 +80,6 @@ void SPaRKLE_RunAction::BeginOfRunAction(const G4Run* run)
 {
     G4AnalysisManager *man = G4AnalysisManager::Instance();    
     G4int TkThick = TK_THICK/um;
-
 
     TotalFileNameFinal = TotalFileName + "_" + std::to_string(TkThick) +"_um.root";
 

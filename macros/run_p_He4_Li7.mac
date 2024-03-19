@@ -1,0 +1,66 @@
+# ---------------------------------------------------------------------------- #
+#                    PARTICLE GUN FOR DEBUGGING MODE CONFIG                    #
+# ---------------------------------------------------------------------------- #
+
+#ELECTRON
+# ---------------------------------------------------------------------------- #
+
+#/gun/particle e-
+#/particleEnergyRandom/Ek_min 0.05
+#/particleEnergyRandom/Ek_max 100 
+#/particleEnergyRandom/DebbuggingModeIsOn true
+
+#/NameOfFile/NameOfFile electron_run
+#/run/beamOn 1000000
+
+
+#PROTON
+# ---------------------------------------------------------------------------- #
+
+#/gun/particle proton
+#/particleEnergyRandom/Ek_min 1
+#/particleEnergyRandom/Ek_max 500
+#/particleEnergyRandom/DebbuggingModeIsOn true
+
+#/NameOfFile/NameOfFile proton_run
+#/run/beamOn 1000000
+
+
+#He3
+# ---------------------------------------------------------------------------- #
+/gun/particle ion
+/gun/ion 2 3 2
+/particleEnergyRandom/Ek_min 3
+/particleEnergyRandom/Ek_max 1500
+/particleEnergyRandom/DebbuggingModeIsOn true
+
+/NameOfFile/NameOfFile He3_run
+/run/beamOn 200000
+
+
+#He4
+# ---------------------------------------------------------------------------- #
+#/gun/particle alpha
+#/particleEnergyRandom/Ek_min 4
+#/particleEnergyRandom/Ek_max 2000
+#/particleEnergyRandom/DebbuggingModeIsOn true
+
+#/NameOfFile/NameOfFile He4_run
+#/run/beamOn 1000000
+
+
+#Li7
+# ---------------------------------------------------------------------------- #
+#/gun/particle ion
+#/gun/ion 3 7 3
+#/particleEnergyRandom/Ek_min 7
+#/particleEnergyRandom/Ek_max 3500
+#/particleEnergyRandom/DebbuggingModeIsOn true
+
+#/NameOfFile/NameOfFile Li7_run
+#/run/beamOn 1000000
+
+
+
+
+
