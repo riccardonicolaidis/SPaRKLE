@@ -112,11 +112,12 @@ private:
 
   void DefineMaterials();
 
+
   // Materials
   G4Material *worldMat, *CsI, *EJ200, *SiMat, *Al, *bachelite;
   G4Element *Si;
   
-  G4Material *GAGG, *BGO;
+  G4Material *GAGG, *BGO, *KaptonMat;
 
 
   // World

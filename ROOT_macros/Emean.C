@@ -78,7 +78,7 @@ void Emean(){
     TH2D *h2_DrilleVvsMCEnergy[NFiles]; // Energy deposition in drilled veto vs Generation Energy
     TH2D *h2_BottomVvsMCEnergy[NFiles]; // Energy deposition in bottom veto vs Generation Energy
 
-    const int nbins = 400;
+    const int nbins = 100;
     const double Ek_min_p = 1, Ek_max_p = 500; // MeV
     const double Ek_min_e = 0.05, Ek_max_e = 500; // MeV
 
@@ -136,27 +136,31 @@ void Emean(){
             if(Ed_DrilledVeto>0.) h2_DrilleVvsMCEnergy[iFile]->Fill(RandEnergy, Ed_DrilledVeto);
             if(Ed_BottomVeto>0.) h2_BottomVvsMCEnergy[iFile]->Fill(RandEnergy, Ed_BottomVeto);
 
+            if(Ed_Calo0>0.) h2_GAGGvsMCEnergy[iFile]->Fill(RandEnergy, Ed_Calo0);
+            if(Thin_x0_y0_ID0>0.) h2_Si1vsMCEnergy[iFile]->Fill(RandEnergy, Thin_x0_y0_ID0);
+            if(Thin_x0_y1_ID1>0.) h2_Si2vsMCEnergy[iFile]->Fill(RandEnergy, Thin_x0_y1_ID1);
 
-            // Charged particle selection
-            if(Ed_DrilledVeto == th_DrilledVeto &&
-               Ed_BottomVeto == th_BottomVeto && 
-               Thin_x0_y1_ID1 == th_Silicon &&
-               Ed_Calo0 > th_Calo0 &&
-               Thin_x0_y0_ID0 > th_Silicon) {
 
-                h2_GAGGvsMCEnergy[iFile]->Fill(RandEnergy, Ed_Calo0);
-                h2_Si1vsMCEnergy[iFile]->Fill(RandEnergy, Thin_x0_y0_ID0);
-               }
+            // // Charged particle selection
+            // if(Ed_DrilledVeto == th_DrilledVeto &&
+            //    Ed_BottomVeto == th_BottomVeto && 
+            //    Thin_x0_y1_ID1 == th_Silicon &&
+            //    Ed_Calo0 > th_Calo0 &&
+            //    Thin_x0_y0_ID0 > th_Silicon) {
+
+            //     h2_GAGGvsMCEnergy[iFile]->Fill(RandEnergy, Ed_Calo0);
+            //     h2_Si1vsMCEnergy[iFile]->Fill(RandEnergy, Thin_x0_y0_ID0);
+            //    }
             
-            if(Ed_DrilledVeto == th_DrilledVeto &&
-               Ed_BottomVeto == th_BottomVeto && 
-               Thin_x0_y0_ID0 == th_Silicon &&
-               Ed_Calo0 > th_Calo0 &&
-               Thin_x0_y1_ID1 > th_Silicon) {
+            // if(Ed_DrilledVeto == th_DrilledVeto &&
+            //    Ed_BottomVeto == th_BottomVeto && 
+            //    Thin_x0_y0_ID0 == th_Silicon &&
+            //    Ed_Calo0 > th_Calo0 &&
+            //    Thin_x0_y1_ID1 > th_Silicon) {
 
-                h2_GAGGvsMCEnergy[iFile]->Fill(RandEnergy, Ed_Calo0);
-                h2_Si2vsMCEnergy[iFile]->Fill(RandEnergy, Thin_x0_y1_ID1);
-               }
+            //     h2_GAGGvsMCEnergy[iFile]->Fill(RandEnergy, Ed_Calo0);
+            //     h2_Si2vsMCEnergy[iFile]->Fill(RandEnergy, Thin_x0_y1_ID1);
+            //    }
         
         } // end of the event loop
 

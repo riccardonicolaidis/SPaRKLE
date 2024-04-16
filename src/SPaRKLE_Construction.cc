@@ -41,6 +41,38 @@ void SPaRKLE_DetectorConstruction::DefineMaterials()
 
 
 
+
+
+  // kapton
+  // single elements
+  G4double z, a;
+  G4String name, symbol;
+  a = 1.0080*g/mole;
+  G4Element *elH = new G4Element(name="Hydrogen", symbol="H", z=1., a);
+
+  a = 12.011*g/mole;
+  G4Element *elC = new G4Element(name="Carbon", symbol="C", z=6, a);
+
+  a = 14.007*g/mole;
+  G4Element *elN = new G4Element(name="Nitrogen", symbol="N", z=7., a);
+
+  a = 15.999*g/mole;
+  G4Element *elO = new G4Element(name="Oxygen", symbol="O", z=8., a);
+
+  
+  KaptonMat = new G4Material("Kapton", 1.42*g/cm3, 4, kStateSolid);
+  KaptonMat->AddElement(elH, 0.03);
+  KaptonMat->AddElement(elC, 0.69);
+  KaptonMat->AddElement(elN, 0.07);
+  KaptonMat->AddElement(elO, 0.21);
+
+
+
+
+  
+
+
+
   Si    = nist -> FindOrBuildElement("Si");
   SiMat = new G4Material("Si", 2.328*g/cm3, 1);
   SiMat -> AddElement(Si,1);

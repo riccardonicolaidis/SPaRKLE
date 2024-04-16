@@ -84,12 +84,13 @@ void SPaRKLE_EventAction::EndOfEventAction(const G4Event* event)
 
   G4bool HasEdep = false; // set it to a default value of true to save all the events
   
-  if(Ed_VetoBottom > 0. || Ed_VetoBottom > 0.) HasEdep = true;
+  HasEdep = (Ed_VetoBottom > 0. || Ed_VetoDrilled > 0.) ? true : false;
   
   if(!HasEdep) {
     for(G4int counter = 0; counter < N_TOTAL_SENSORS; counter++ ){
       if(Ed_Thin[counter]== 0.) continue;
       HasEdep = true;
+      break;
     }
   }
 
@@ -97,8 +98,11 @@ void SPaRKLE_EventAction::EndOfEventAction(const G4Event* event)
     for(G4int counter = 0; counter < N_PL_SCINT_NO_VETO; counter++ ){
       if(Ed_Calo[counter] == 0.) continue;
       HasEdep = true;
+      break;
     }
   }
+
+  // HasEdep = true;
 
   if(HasEdep){
 
@@ -153,4 +157,15 @@ void SPaRKLE_EventAction::EndOfEventAction(const G4Event* event)
   G4int printModulo = G4RunManager::GetRunManager()->GetPrintProgress();
   if (printModulo==0 || event->GetEventID() % printModulo != 0) return;
   G4cout << ">>> Event " << event->GetEventID() << G4endl;
+
+
+  G4cout << G4endl
+    << ">>> Event " << event->GetEventID() << " >>> Simulation truth : "
+    << event->GetPrimaryVertex()->GetPrimary()->GetG4code()->GetParticleName()
+    << " PDG code " << event->GetPrimaryVertex()->GetPrimary()->GetPDGcode()
+    << " energy " << event->GetPrimaryVertex()->GetPrimary()->GetKineticEnergy()
+    << " momentum vector " << event->GetPrimaryVertex()->GetPrimary()->GetMomentum()
+	  << " position " << event->GetPrimaryVertex(0)->GetPosition()
+	<< G4endl;
+    
 }

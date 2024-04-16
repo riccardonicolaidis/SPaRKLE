@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "cmath": "cpp",
+        "Emean.C": "cpp",
+        "new": "cpp"
+    }
+}

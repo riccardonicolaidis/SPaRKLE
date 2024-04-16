@@ -10,8 +10,8 @@
 /gps/pos/type Plane
 /gps/pos/shape Square
 /gps/pos/centre 0 0 -2.3 cm
-/gps/pos/halfx 40.0 cm
-/gps/pos/halfy 40.0 cm
+/gps/pos/halfx 4.0 cm
+/gps/pos/halfy 4.0 cm
 /gps/ang/type iso
 
 
@@ -24,10 +24,10 @@
 /gps/ang/maxtheta 90 deg
 /gps/ang/mintheta 0 deg
 
-/NameOfFile/NameOfFile GPSproton_run
+/NameOfFile/NameOfFile GPSproton_8cm_run
 
-/run/printProgress 10000000
-/run/beamOn 100000000
+/run/printProgress 1000000
+/run/beamOn 10000000
 
 
 # ---------------------------------------------------------------------------- #
@@ -37,7 +37,7 @@
 /gps/ene/min 0.05 MeV
 /gps/ene/max 500 MeV
 
-/NameOfFile/NameOfFile GPSelectron_run
+/NameOfFile/NameOfFile GPSelectron_8cm_run
 
-/run/printProgress 10000000
-/run/beamOn 100000000
+/run/printProgress 1000000
+/run/beamOn 10000000

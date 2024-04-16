@@ -48,33 +48,31 @@ TH1D* GenerateHistogram(TString Name, TString title, TString XTitle, TString YTi
     return histogram;
 }
 
-
-enum detectors_order{GAGG_i, Si1_i, Si2_i, BottomVeto_i, DrilledVeto_i};
+enum detectors_order{GAGG_i, Si1_i, Si2_i};
 enum particles_order{proton, electron};
 
 
 
-void trig_eff(){
+
+void GeometricAcceptance(){
     // gStyle->SetOptStat(0); // no statistics
 
     //Files to be used
     const int NFiles = 2;
-    const int NDetectors = 5;
+    const int NDetectors = 3;
     TString particles[NFiles] = {"p", "e^{-}"};
-    TString names[NFiles] = {"../build/GPSproton_40cm_run_0_um.root", "../build/GPSelectron_40cm_run_0_um.root"};
+    TString names[NFiles] = {"../build/GPSproton_8cm_run_0_um.root", "../build/GPSelectron_8cm_run_0_um.root"};
     TString h1_names[NFiles] = {"Gen_spectra_P", "Gen_spectra_e"};
-    TString h1_detNames[NDetectors] = {"GAGG", "Si1", "Si2", "BottomVeto", "DrilledVeto"};
+    TString h1_detNames[NDetectors] = {"GAGG", "Si1", "Si2"};
 
 
-
-    //Histos for efficiencies
+    //Histos for Geometric acceptances
     TH1D *h1_acc[NFiles];
     TH1D *h1_accDetectors[NFiles*NDetectors];
 
-
     const int LineWidth = 3;
     Color_t part_colors[NFiles] = {kBlue, kRed};
-    Color_t det_colors[NDetectors] = {kGreen+1, kMagenta+1, kOrange+1, kAzure-2, kRed-5,};
+    Color_t det_colors[NDetectors] = {kGreen+1, kMagenta+1, kOrange+1};
     TPaveText* title;
     const int nbins = 100;
     const double Ek_min_p = 1, Ek_max_p = 500; // MeV
@@ -83,7 +81,7 @@ void trig_eff(){
     const double BinWidthLog_e = (TMath::Log10(Ek_max_e) - TMath::Log10(Ek_min_e)) / nbins; // bin width in log scale
 
     //Generation events info and histos
-    const double GenArea = 1600; // cm^2 
+    const double GenArea = 64; // cm^2 
     const double PlaneAcceptance = TMath::Pi() * GenArea; // cm^2 sr
     TH1D *h1_genEvents[NFiles];
 
@@ -92,17 +90,19 @@ void trig_eff(){
     for(int i=0; i<NFiles; i++) {
         if(names[i].Contains("proton")) {
             printf("Creating histogram for protons\n");
-            h1_acc[i] = GenerateHistogram("h1_acc_"+particles[i], "Trigger_efficiency_"+particles[i], "E_{k} [MeV/c]", "#epsilon", nbins, Ek_min_p, Ek_max_p);            for(int index = 0; index<NDetectors; index++){
+            h1_acc[i] = GenerateHistogram("h1_acc_"+particles[i], "Geometric_acceptance_"+particles[i], "E_{k} [MeV/c]", "Acceptance [cm^{2} sr]", nbins, Ek_min_p, Ek_max_p);
+            for(int index = 0; index<NDetectors; index++){
                 h1_accDetectors[(NDetectors*i) +index] = GenerateHistogram("h1_"+h1_detNames[index]+"_"+particles[i], "Geometric_acceptance_"+h1_detNames[index]+"_"+particles[i], "E_{k} [MeV/c]", "Acceptance [cm^{2} sr]", nbins, Ek_min_p, Ek_max_p);
                 h1_accDetectors[(NDetectors*i) +index]->SetLineWidth(LineWidth);
                 h1_accDetectors[(NDetectors*i) +index]->SetLineColor(det_colors[index]);
                 h1_accDetectors[(NDetectors*i) +index]->GetYaxis()->SetTitleOffset(1.0);
                 h1_accDetectors[(NDetectors*i) +index]->GetXaxis()->SetTitleOffset(1.2);
             }
+
         }
         if(names[i].Contains("electron")) {
             printf("Creating histogram for electrons\n");
-            h1_acc[i] = GenerateHistogram("h1_acc_"+particles[i], "Trigger_efficiency_"+particles[i], "E_{k} [MeV/c]", "#epsilon", nbins, Ek_min_e, Ek_max_e);
+            h1_acc[i] = GenerateHistogram("h1_acc_"+particles[i], "Geometric_acceptance_"+particles[i], "E_{k} [MeV/c]", "Acceptance [cm^{2} sr]", nbins, Ek_min_e, Ek_max_e);
             for(int index = 0; index<NDetectors; index++){
                 h1_accDetectors[(NDetectors*i) + index] = GenerateHistogram("h1_"+h1_detNames[index]+"_"+particles[i], "Geometric_acceptance_"+h1_detNames[index]+"_"+particles[i], "E_{k} [MeV/c]", "Acceptance [cm^{2} sr]", nbins, Ek_min_e, Ek_max_e);
                 h1_accDetectors[(NDetectors*i) +index]->SetLineWidth(LineWidth);
@@ -116,7 +116,7 @@ void trig_eff(){
         h1_acc[i]->SetLineColor(part_colors[i]);
         h1_acc[i]->GetYaxis()->SetTitleOffset(1.0);
         h1_acc[i]->GetXaxis()->SetTitleOffset(1.2);
-    }
+        }
 
 
     //Trigger thresholds and cuts
@@ -158,29 +158,46 @@ void trig_eff(){
 
             t->GetEntry(entry);
 
-            if(Ed_Calo0 > 0.0) h1_accDetectors[(iFile*NDetectors)+GAGG_i]->Fill(RandEnergy);
-            if(Thin_x0_y0_ID0 > 0.0) h1_accDetectors[(iFile*NDetectors)+Si1_i]->Fill(RandEnergy);
-            if(Thin_x0_y1_ID1 > 0.0) h1_accDetectors[(iFile*NDetectors)+Si2_i]->Fill(RandEnergy);
-            if(Ed_DrilledVeto > 0.0) h1_accDetectors[(iFile*NDetectors)+DrilledVeto_i]->Fill(RandEnergy);
-            if(Ed_BottomVeto > 0.0) h1_accDetectors[(iFile*NDetectors)+BottomVeto_i]->Fill(RandEnergy);
 
+            // Charged particle selection
+            if(Ed_DrilledVeto == th_DrilledVeto &&
+               Ed_BottomVeto == th_BottomVeto && 
+               Thin_x0_y1_ID1 == th_Silicon &&
+               Ed_Calo0 > th_Calo0 &&
+               Thin_x0_y0_ID0 > th_Silicon) {
 
-            if(Ed_DrilledVeto > 0.0 ||
-               Ed_BottomVeto > 0.0  ||
-               Thin_x0_y1_ID1 > 0.0 ||
-               Ed_Calo0 > 0.0       ||
-               Thin_x0_y0_ID0 > 0.0) h1_acc[iFile]->Fill(RandEnergy);
+                h1_acc[iFile]->Fill(RandEnergy);
+                for(int index = 0; index<NDetectors; index++){
+                    if(index == Si2_i) continue;
+                    h1_accDetectors[(NDetectors*iFile) + index]->Fill(RandEnergy);
+                }
+
+               }
+            
+            if(Ed_DrilledVeto == th_DrilledVeto &&
+               Ed_BottomVeto == th_BottomVeto && 
+               Thin_x0_y0_ID0 == th_Silicon &&
+               Ed_Calo0 > th_Calo0 &&
+               Thin_x0_y1_ID1 > th_Silicon) {
+
+                h1_acc[iFile]->Fill(RandEnergy);
+                for(int index = 0; index<NDetectors; index++){
+                    if(index == Si1_i ) continue;
+                    h1_accDetectors[(NDetectors*iFile) + index]->Fill(RandEnergy);
+                }
+            }
         
         } // end of the event loop
 
-        //Getting the efficiencies
+        //Getting the Geometric acceptances
         h1_acc[iFile]->Divide(h1_genEvents[iFile]);
         h1_acc[iFile]->Scale(PlaneAcceptance);
 
-        for(int i_det=0; i_det<NDetectors; i_det++){
-            h1_accDetectors[(NDetectors*iFile) + i_det]->Divide(h1_genEvents[iFile]);
-            h1_accDetectors[(NDetectors*iFile) + i_det]->Scale(PlaneAcceptance);
+        for(int index = 0; index<NDetectors; index++){
+            h1_accDetectors[(NDetectors*iFile) + index]->Divide(h1_genEvents[iFile]);
+            h1_accDetectors[(NDetectors*iFile) + index]->Scale(PlaneAcceptance);
         }
+
     } // end of the file loop
 
 
@@ -200,19 +217,23 @@ void trig_eff(){
 
    
 
-    TCanvas *c = new TCanvas("c", "Efficiencies", 800, 800);
+    TCanvas *c = new TCanvas("c", "Geometric acceptances", 800, 800);
     c->SetLogx();
     c->SetLogy();
     c->SetGrid();
     h1_dummy->SetTitle("Geometric acceptances");
     h1_dummy->GetYaxis()->SetTitle("Acceptance [cm^{2} sr]");
-    max = 1e3;
-    h1_dummy->GetYaxis()->SetRangeUser(1e-8, max);
+    max = 1;
+    h1_dummy->GetYaxis()->SetRangeUser(1e-3, max);
     h1_dummy->GetXaxis()->SetTitle("E_{k} [MeV/c]");
     h1_dummy->DrawCopy();
     for(int i=0; i<NFiles; i++) {
         h1_acc[i]->SetTitle(particles[i].Data());
         h1_acc[i]->Draw("e same");
+
+        // for(int index = 0; index<NDetectors; index++){
+        //     h1_accDetectors[(NDetectors*i) + index]->Draw("e same");
+        // }
 
         if(i!=NFiles-1) continue;
         c->BuildLegend();
@@ -283,9 +304,7 @@ void trig_eff(){
     c2->BuildLegend();
 
 
-
-
-
+    
     for(int i=1; i<=h1_pRate[proton]->GetNbinsX(); i++){
 
         // proton
@@ -360,7 +379,7 @@ void trig_eff(){
     } //end of the bin loop
 
 
-    
+
     TCanvas *c3 = new TCanvas("c3", "Rate", 800, 600);
     c3->cd();
     c3->SetLogx();
@@ -373,27 +392,19 @@ void trig_eff(){
     h1_pRate[proton]->Draw("e same");
 
     c3->BuildLegend();
-    h1_pRate[electron]->SetTitle("Expected rates");    
+    h1_pRate[electron]->SetTitle("Expected rates");
 
     double ElectronCheck = 0, ProtonCheck = 0;
-    for(int i_det=0; i_det<NDetectors; i_det++){
-        ProtonCheck += h1_detRate[i_det]->Integral();
-        ElectronCheck += h1_detRate[NDetectors+i_det]->Integral();
-    }
-    ProtonCheck -= h1_pRate[proton]->Integral();
-    ElectronCheck -= h1_pRate[electron]->Integral();
+    ProtonCheck = (h1_detRate[GAGG_i]->Integral() +  h1_detRate[Si1_i]->Integral() + h1_detRate[Si2_i]->Integral()) - h1_pRate[proton]->Integral();
 
-    // La somma degli integrali dei rate attesi sui detectors deve essere > del rate atteso per una data particella. 
+    ElectronCheck = (h1_detRate[NDetectors+GAGG_i]->Integral() + h1_detRate[NDetectors+Si1_i]->Integral() + h1_detRate[NDetectors+Si2_i]->Integral()) - h1_pRate[electron]->Integral();
 
+    // La somma degli integrali dei rate attesi sui detectors deve essere il doppio del rate atteso per una data particella. 
+    // Di conseguenza le variabili ElectronCheck e ProtonCheck devono essere uguali agli integrali di h1_pRate[electron] e h1_pRate[proton] (rispettivamente)
     printf("Electron prompt  ----- Total rate: %.5e  ElectronCheck: %.5e; \n", h1_pRate[electron]->Integral(), ElectronCheck);
     printf("Proton prompt     ----- Total rate: %.5e ProtonCheck: %.5e; \n", h1_pRate[proton]->Integral(), ProtonCheck);
 
-
-    // PROBLEMA CON I RATE ATTESI !!!!!!!!!!
-    // Butta su due rettangolini in Kapton e via
-
-    TFile *f_out = new TFile("rate_proton_electron.root", "RECREATE");
-    f_out->cd();
+    TFile *f_out = new TFile("SPaRKLE_AcquisitionRate.root", "RECREATE");
     c->Write();
     for(int i_hist=0; i_hist<NFiles; i_hist++){
         h1_acc[i_hist]->Write();
