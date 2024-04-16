@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "GeometricalFactor_CZT.C": "cpp",
+        "PID.C": "cpp",
+        "DeltaE_E_plot.C": "cpp",
+        "Energy.C": "cpp",
+        "DetectionYield.C": "cpp",
+        "debug.C": "cpp",
+        "GammaYield.C": "cpp",
+        "macroAcceptance.C": "cpp",
+        "GeometricalFactor.C": "cpp",
+        "testHist.C": "cpp",
+        "SPaRKLE_EffArea.C": "cpp"
+    }
+}

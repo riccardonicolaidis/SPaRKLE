@@ -36,10 +36,11 @@ void DeltaE_E_plot()
     double distanceR;
     double ResSilicon;
     double ResPlastic;
-    double E_min_thin;   // Thick layer
-    double E_min_thick;  // Thin layer
+    double ResCalo;
+    double E_th_thin;   // Thick layer
     double E_th_Vetoed;  // Energy dispersion (Veto threshold)
-    double E_th_plastic;
+    double E_th_calo;
+
     double Emaxx;
     double Emaxy;
     double Eminx;
@@ -56,8 +57,8 @@ void DeltaE_E_plot()
     DebugMuons = false;
     Nfiles       = 3;
     // Geometric parameter
-    Nx           = 4;
-    Ny           = 4;
+    Nx           = 1;
+    Ny           = 2;
     Ntot         = Nx * Ny;
     LThin        = 10.;
     xDelta       = LThin / (Nx);
@@ -67,11 +68,11 @@ void DeltaE_E_plot()
     // Smearing parameters
     ResSilicon   = 0.01;
     ResPlastic   = 0.3;
+    ResCalo      = 0.2;
     // Trigger and veto thresholds
-    E_min_thin   = 0.02;
-    E_min_thick  = 0.04;
+    E_th_thin   = 0.02;
     E_th_Vetoed  = 0.1;
-    E_th_plastic = 0.2;
+    E_th_calo   = 0.02;
     // Plotting parameters (canvas)
     // Energy is in log10 scale
     Emaxx       = 3;
@@ -85,7 +86,7 @@ void DeltaE_E_plot()
 
 
         if(DebugMuons)
-    Nfiles = 4;
+    Nfiles = 3;
     cout << "Nfiles = " << Nfiles << endl;
 
     // Definitions of the files 
@@ -93,9 +94,9 @@ void DeltaE_E_plot()
     //FileName[0] = "01_08_2022_ELECTRON.root";
     //FileName[1] = "01_08_2022_PROTON.root";
     //FileName[2] = "01_08_2022_ALPHA.root";
-    FileName[0] = "Edep_05_08_2022_ELECTRON.root";
-    FileName[1] = "Edep_05_08_2022_PROTON.root";
-    FileName[2] = "Edep_05_08_2022_ALPHA.root";
+    FileName[0] = "ELECTRON_2cm_0_um.root";
+    FileName[1] = "PROTON_2cm_0_um.root";
+    FileName[2] = "ALPHA_2cm_0_um.root";
 
     if(DebugMuons)
     FileName[3] = "01_08_2022_MUON.root";
@@ -112,7 +113,10 @@ void DeltaE_E_plot()
     }
 
     // Definitions of the initial quantities from the data of the simulation
-    TString BranchName[47];
+
+
+    int NumberOfBranches = Edep[0] -> GetNbranches();
+    TString BranchName[NumberOfBranches];
     TString TotEnergyName[16];
     TString TotEnergyCondition[16];
     TString PIDName[16];
@@ -153,15 +157,12 @@ void DeltaE_E_plot()
     BranchName[6]  = "pDirX";
     BranchName[7]  = "pDirY";
     BranchName[8]  = "pDirZ";
-    BranchName[9]  = "Ed_Veto0";
+    BranchName[9]  = "Ed_Calo0";
     BranchName[10] = "Ed_DrilledVeto";
-    BranchName[43] = "Ed_Veto1";
-    BranchName[44] = "Ed_Veto2";
-    BranchName[45] = "Ed_Veto3";
-    BranchName[46] = "Ed_Veto4";
+    BranchName[11] = "Ed_BottomVeto";
 
 
-    j = 11;
+    j = 12;
     CopyNumber = 0;
     
     for(int ix = 0; ix < Nx; ++ix)
@@ -169,16 +170,13 @@ void DeltaE_E_plot()
         for(int iy = 0; iy < Ny; ++iy)
         {   
             BranchName[j]        = Form("Thin_x%d_y%d_ID%d",ix,iy,CopyNumber);
-            BranchName[j + Ntot] = Form("Thick_x%d_y%d_ID%d",ix,iy,CopyNumber);
             if (CopyNumber == 0)
             {
                 ThinTot  = Form("(%s)", BranchName[j].Data());
-                ThickTot = Form("(%s)", BranchName[j + Ntot].Data());
             }
             else
             {
                 ThinTot  = Form("(%s + %s)",ThinTot.Data(), BranchName[j].Data());
-                ThickTot = Form("(%s + %s)",ThickTot.Data(), BranchName[j + Ntot].Data());
             }
             xHole[CopyNumber]              = -(LThin/2.) + (xDelta/2.) + ix * xDelta;
             yHole[CopyNumber]              = -(LThin/2.) + (yDelta/2.) + iy * yDelta;
@@ -219,9 +217,10 @@ void DeltaE_E_plot()
         for(int k = 9; k < 47; ++k)
         {
             Edep[i] -> SetAlias(Form("wnorm%d",k),"(sin(2 *pi*rndm)*sqrt(-2*log(rndm)))");
-            if(k == 9 || k == 10 || (k >= 43 && k <= 46))
+            if(k == 9)
             {
-                Edep[i] -> SetAlias(Form("g%s",BranchName[k].Data()), Form("((%s)*(1 + (wnorm%d * %f)))",BranchName[k].Data(),k,ResPlastic));
+                // calo
+                Edep[i] -> SetAlias(Form("g%s",BranchName[k].Data()), Form("((%s)*(1 + (wnorm%d * %f)))",BranchName[k].Data(),k,ResCalo));
             }
             else 
             {
@@ -247,7 +246,7 @@ void DeltaE_E_plot()
         
         /* -------------------- Particle identification parameter ------------------- */
 
-        j = 11;
+        j = 12;
         CopyNumber = 0;
         cout << "Defining total energy in File " << i << " : " << FileName[i].Data() << endl;
         for(int ix = 0; ix < Nx; ++ix)
@@ -256,11 +255,8 @@ void DeltaE_E_plot()
             {   
                 TotEnergyName[CopyNumber] = Form("Tot_x%d_y%d_ID%d",ix,iy,CopyNumber);
                 PIDName[CopyNumber] = Form("PID_x%d_y%d_ID%d",ix,iy,CopyNumber);
-                TotEnergyCondition[CopyNumber]  = Form("(%s + %s",BranchName[j].Data(), BranchName[j + Ntot].Data());
+                TotEnergyCondition[CopyNumber]  = Form("(%s ",BranchName[j].Data());
                 TotEnergyCondition[CopyNumber] += Form("+ (g%s)*(g%s > %g)", BranchName[9].Data(), BranchName[9].Data(),E_th_plastic);
-                TotEnergyCondition[CopyNumber] += Form("+ (g%s)*(g%s > %g)", BranchName[43].Data(), BranchName[43].Data(),E_th_plastic);
-                TotEnergyCondition[CopyNumber] += Form("+ (g%s)*(g%s > %g)", BranchName[44].Data(), BranchName[44].Data(),E_th_plastic);
-                TotEnergyCondition[CopyNumber] += Form("+ (g%s)*(g%s > %g)", BranchName[45].Data(), BranchName[45].Data(),E_th_plastic);
                 TotEnergyCondition[CopyNumber] += ")";
                 Edep[i] -> SetAlias(TotEnergyName[CopyNumber], TotEnergyCondition[CopyNumber]);
                 Edep[i] -> SetAlias(PIDName[CopyNumber], Form("(TMath::Log10(g%s * %s))",BranchName[j].Data(), TotEnergyName[CopyNumber].Data()));
@@ -279,21 +275,27 @@ void DeltaE_E_plot()
     /* -------------------------------------------------------------------------- */
 
     TString ConditionPairSilicon[Ntot];
-    TString ConditionPairSiliconAll;
+    TString ConditionPairSiliconAll_ON;
     TString ConditionEnergyDispersion;
     TString ConditionDrilledVeto;
     TString ConditionGoodEvents;
     TString ConditionGoodEventsSinglePair[Ntot];
 
+    TString ConditionNumberSiliconON = "((";
+
 
     for(int i = 0; i< Ntot; ++i)
     {
-        cout << "Defining good events for pair" << BranchName[11+i].Data() << " & " <<BranchName[11+ Ntot+i].Data() << endl;
-        ConditionPairSilicon[i] = Form("((%s > %g) && (%s > %g))", BranchName[11+i].Data(), E_min_thin, BranchName[11 + Ntot + i].Data(), E_min_thick);
+        cout << "Defining good events for pair" << BranchName[12+i].Data() << endl;
+        ConditionPairSilicon[i] = Form("(%s > %g)", BranchName[12+i].Data(), E_min_thin, E_th_plastic);
         cout << "ConditionPairSilicon[" << i << "] = " << ConditionPairSilicon[i].Data() << endl;
+
+        ConditionNumberSiliconON += Form("(%s > %g)", BranchName[12+i].Data(), E_min_thin);
+
+
         if(i == 0)
         {
-            ConditionPairSiliconAll = Form("((%s > %g) && (%s > %g))", BranchName[11+i].Data(), E_min_thin, BranchName[11 + Ntot + i].Data(), E_min_thick);
+            ConditionPairSiliconAll = Form("((%s > %g))", BranchName[11+i].Data(), E_min_thin, BranchName[11 + Ntot + i].Data(), E_min_thick);
         }
         else 
         {

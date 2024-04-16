@@ -34,12 +34,10 @@ int main(int argc, char **argv)
   G4RunManager *runManager = new G4RunManager();
 
   G4VModularPhysicsList *physicsList = new FTFP_BERT;
-  physicsList   -> ReplacePhysics(new G4EmStandardPhysics_option4());
   physicsList   -> ReplacePhysics(new G4EmLowEPPhysics());
-  G4StepLimiterPhysics* stepLimiter = new G4StepLimiterPhysics();
-  stepLimiter -> SetApplyToAll(true);
-  physicsList -> RegisterPhysics(stepLimiter);
-
+  physicsList   -> ReplacePhysics(new G4EmStandardPhysics_option4());
+  
+  
 
   // Detector geometry and materials
   SPaRKLE_DetectorConstruction *det = new SPaRKLE_DetectorConstruction;
@@ -58,12 +56,12 @@ int main(int argc, char **argv)
 
   G4UImanager *UImanager = G4UImanager::GetUIpointer();
 
-  runManager->Initialize();
+  //runManager->Initialize();
 
   if (ui)
   {
-    UImanager->ApplyCommand("/control/execute vis.mac");
     UImanager->ApplyCommand("/control/execute default_generator.mac");
+    UImanager->ApplyCommand("/control/execute vis.mac");
     ui->SessionStart();
   }
   else

@@ -2,6 +2,8 @@
 /control/saveHistory
 /run/verbose 2
 
+/run/initialize
+
 /vis/open OGL 600x600-0+0
 /vis/viewer/zoom 1.2
 /vis/drawVolume

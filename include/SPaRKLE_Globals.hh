@@ -25,6 +25,8 @@
 #define TK_THICK 1*nm
 #define TK_PLASTIC_VETO 1*cm
 
+#define TK_GAGG 1*cm
+
 // Select the geometry
 // Set to 1 to view the new geometry
 // Set to 0 to view the geometry from the Master thesis

@@ -122,10 +122,6 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   myfile << "Compilation Date and Time: " << __DATE__ << " " << __TIME__ << endl << endl;
 
 
-  G4double MaxStepLength = 1. * mm;
-
-  G4UserLimits *MaxStep = new G4UserLimits();
-  MaxStep -> SetMaxAllowedStep(MaxStepLength);
   
 
   TotalMass = 0;
@@ -193,7 +189,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
 
   // Dimensions of the Veto
   LScintVeto  = LActive - 1.5*cm;
-  TkScintVeto = TK_PLASTIC_VETO;
+  TkScintVeto = TK_GAGG;
 
   myfile << "Plastic scintillator thickness: " << TkScintVeto/cm << " cm" << endl;
 
@@ -263,9 +259,8 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   visContainer   -> SetVisibility(false);
   logicContainer -> SetVisAttributes(visContainer);
 
-  solidScintVeto = new G4Box("solidScintVeto", LScintVeto*0.5, LScintVeto*0.5, TkScintVeto*0.5);
+  solidScintVeto = new G4Box("solidScintVeto", LScintVeto*0.5, LScintVeto*0.5, TK_GAGG*0.5);
   logicScintVeto = new G4LogicalVolume(solidScintVeto, GAGG, "logicScintVeto");
-  logicScintVeto -> SetUserLimits(MaxStep);
   visScintVeto   = new G4VisAttributes(G4Colour(1.,1.,0.));
   logicScintVeto -> SetVisAttributes(visScintVeto);
   
@@ -298,7 +293,6 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
 
   VaschettaVeto = SPaRKLE_DetectorConstruction::SolidoVaschetta((zBottomVeto-zDrilledVeto - TkScintVeto/2.), 1*cm, LScintVeto+15*mm, LScintVeto+15*mm, LScintVeto+20*mm, LScintVeto+20*mm);
   logicVaschettaVeto = new G4LogicalVolume(VaschettaVeto, EJ200, "logicVaschettaVeto");
-  logicVaschettaVeto -> SetUserLimits(MaxStep);
   visVaschettaVeto = new G4VisAttributes(G4Colour(0.3,0.3,1.0));
   logicVaschettaVeto -> SetVisAttributes(visVaschettaVeto);
   physVaschettaVeto = new G4PVPlacement(0,G4ThreeVector(xScintVeto, yScintVeto, zBottomVeto ),logicVaschettaVeto, "physVaschettaVeto", logicContainer, false, 0, true );
@@ -313,7 +307,6 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   
 
   logicSiDetThin = new G4LogicalVolume(solidSiDetThin, SiMat, "logicSiDetThin");
-  logicSiDetThin -> SetUserLimits(MaxStep);
   TotalMass += (logicSiDetThin->GetMass())*16/kg;
   
   
@@ -465,7 +458,6 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   
   // LOGIC DRILLED VETO
   logicDrilledVeto = new G4LogicalVolume(solidFinalDrilledVeto, EJ200, "logicDrilledVeto");
-  logicDrilledVeto -> SetUserLimits(MaxStep);
   TotalMass += (logicDrilledVeto->GetMass())/kg;
   visDrilledVeto = new G4VisAttributes(G4Colour(0.3,0.3,1.0));
   logicDrilledVeto->SetVisAttributes(visDrilledVeto);

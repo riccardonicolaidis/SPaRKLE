@@ -1,0 +1,81 @@
+
+#/cuts/setLowEdge 100 eV
+
+/run/initialize 
+
+/particleEnergyRandom/DebbuggingModeIsOn true
+/particleEnergyRandom/IsExponential true
+
+# --------------------------------- ELECTRON --------------------------------- #
+
+/gun/particle e-
+/particleEnergyRandom/Ek_min 0.094
+/particleEnergyRandom/Ek_max 200
+/NameOfFile/NameOfFile ../DST/ELECTRON_2cm
+
+/run/beamOn 200000
+
+
+
+# ----------------------------------- PROTON --------------------------------- #
+
+/gun/particle proton
+/particleEnergyRandom/Ek_min 3.
+/particleEnergyRandom/Ek_max 300.0
+/NameOfFile/NameOfFile ../DST/PROTON_2cm
+/run/beamOn 200000
+
+
+
+# ----------------------------------- ALPHA ---------------------------------- #
+
+/gun/particle alpha
+/particleEnergyRandom/Ek_min 10.
+/particleEnergyRandom/Ek_max 600.
+/NameOfFile/NameOfFile ../DST/ALPHA_2cm
+/run/beamOn 200000
+
+
+# ----------------------------------- GAMMA ---------------------------------- #
+
+/particleEnergyRandom/DebbuggingModeIsOn false
+
+
+/gps/verbose 0
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0 0 -2.4 cm
+/gps/pos/halfx 6.0 cm
+/gps/pos/halfy 6.0 cm
+/gps/ang/type iso
+/gps/ene/type Pow
+/gps/ene/alpha 1.0
+
+
+/gps/ang/maxtheta 90 deg
+/gps/ang/mintheta 0 deg
+
+/gps/particle gamma
+/gps/ene/min 6 keV
+/gps/ene/max 500 MeV
+
+# ----------------------------------- GAMMA ---------------------------------- #
+
+/particleEnergyRandom/DebbuggingModeIsOn false
+
+/gps/verbose 0
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0 0 -2.4 cm
+/gps/pos/halfx 6.0 cm
+/gps/pos/halfy 6.0 cm
+/gps/ang/type iso
+/gps/ene/type Pow
+/gps/ene/alpha 1.0
+/gps/ene/min 6 keV
+/gps/ene/max 1000 MeV
+
+
+
+/NameOfFile/NameOfFile ../DST/GAMMA_2cm
+/run/beamOn 200000

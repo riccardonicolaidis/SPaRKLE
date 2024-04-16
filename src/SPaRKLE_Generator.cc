@@ -160,10 +160,11 @@ void SPaRKLE_PrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
   }
   
   // COUNTER
-  if(ParticleNumber%20000 == 0)
+  if(ParticleNumber%1000 == 0)
   {
     G4cout << ParticleNumber/1000 << "e3" << G4endl;
   }
+
   ++ParticleNumber;
   
 }
