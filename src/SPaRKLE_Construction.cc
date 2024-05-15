@@ -161,7 +161,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   // ACTIVE AREA OF THE DETECTOR
 
   LSquareCentersThin = 5.8 * cm;
-  LActive = 7.2 * cm;
+  LActive = 8 * cm;
 
   // THICKNESS OF THE MATERIAL
   TkThin        = TK_THIN;
@@ -188,7 +188,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   LyPCB = LActive - 1.2*cm;
 
   // Dimensions of the Veto
-  LScintVeto  = LActive - 1.5*cm;
+  LScintVeto  = LActive - 0*cm;
   TkScintVeto = TK_GAGG;
 
   myfile << "Plastic scintillator thickness: " << TkScintVeto/cm << " cm" << endl;
@@ -209,8 +209,8 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
 
   // Construction of the Drilled Veto
   // BIGGER than the Veto on the back of the instrument
-  LxDrilledVeto = LActive;
-  LyDrilledVeto = LActive;
+  LxDrilledVeto = LActive- 0.3*cm;
+  LyDrilledVeto = LActive - 0.3 * cm;
   TkDrilledVeto = 0.8*cm;
 
   myfile << "Drilled Veto thickness: " << TkDrilledVeto/cm << " cm" << endl;
@@ -227,8 +227,8 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   LxDrilledAl0 = 10 * cm;
   LyDrilledAl0 = 10 * cm;
   TkDrilledAl0 = 0.8 * cm;
-  LxDrilledAl1 = (10 - 0.7*2 )* cm;
-  LyDrilledAl1 = (10 - 0.7*2 )* cm;
+  LxDrilledAl1 = (10 - 0.3*2 )* cm;
+  LyDrilledAl1 = (10 - 0.3*2 )* cm;
   TkCompenetration = 0.1 * cm;
 
   xDrilledAl = 0.;
@@ -291,7 +291,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   zBottomVeto += 0.1*mm + TkScintVeto + ExtraSpacing + 1* mm;
   
 
-  VaschettaVeto = SPaRKLE_DetectorConstruction::SolidoVaschetta((zBottomVeto-zDrilledVeto - TkScintVeto/2.), 1*cm, LScintVeto+15*mm, LScintVeto+15*mm, LScintVeto+20*mm, LScintVeto+20*mm);
+  VaschettaVeto = SPaRKLE_DetectorConstruction::SolidoVaschetta((zBottomVeto-zDrilledVeto - TkScintVeto/2.), 1*cm, LScintVeto+3*mm, LScintVeto+3*mm, LScintVeto+11*mm, LScintVeto+11*mm);
   logicVaschettaVeto = new G4LogicalVolume(VaschettaVeto, EJ200, "logicVaschettaVeto");
   visVaschettaVeto = new G4VisAttributes(G4Colour(0.3,0.3,1.0));
   logicVaschettaVeto -> SetVisAttributes(visVaschettaVeto);
@@ -492,11 +492,11 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
 
 
   G4double xLateralVeto = 0;
-  G4double yLateralVeto = LScintVeto/2. + TkLateralVeto/2. + 9 * mm;
+  G4double yLateralVeto = LActive/2. + TkLateralVeto/2. + 2 * mm;
   G4double zLateralVeto = (z1+z2)/2.;
 
   LzLateralVeto = abs(z2 - z1);
-  LxLateralVeto = LScintVeto + 8 * mm;
+  LxLateralVeto = LScintVeto + 2 * mm;
   TkLateralVeto =  TkScintVeto;
 
 

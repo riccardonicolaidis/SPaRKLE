@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------- #
 #                    GENERAL PARTICLE SOURCE DEFAULT CONFIOG                   #
 # ---------------------------------------------------------------------------- #
-/gps/verbose 2
+/gps/verbose 0
 /gps/particle gamma
 /gps/pos/type Plane
 /gps/pos/shape Square
@@ -26,20 +26,27 @@
 
 
 
+/process/em/auger true
+/process/em/augerCascade true
+/process/em/pixe true
+/process/em/fluo true
+/process/em/fluoANSTO true
+/process/em/fluoBearden true
+
+
+/gps/ene/min 0.01 MeV
+/gps/ene/max 5000 MeV
+
+
+/cuts/setLowEdge 10 eV
+/cuts/setHighEdge 2 TeV
+
 
 
 # SETTAGGIO DEI CUTS (EVENTUALMENTE ANCHE PER SINGOLA PARTICELLA - VEDI COMANDI COMMENTATI)
-#/run/setCut 10 nm
+/run/setCut 50 um
 
-# COMANDO COMMENTATO PER LUNGHEZZA MASSIMA DEGLI STEP (DA EVITARE)
-#/testem/stepMax 1 um
-
-
-
-
-
-#/process/msc/StepLimit UseSafetyPlus
-
+/process/msc/StepLimit UseSafetyPlus
 
 
 

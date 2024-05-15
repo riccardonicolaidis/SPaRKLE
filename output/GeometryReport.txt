@@ -1,9 +1,9 @@
 Report of the geometry of the detector
 ======================================
 
-Local Date and Time is: Thu Apr  4 18:59:29 2024
+Local Date and Time is: Mon May  6 09:58:04 2024
 
-Compilation Date and Time: Apr  4 2024 18:32:02
+Compilation Date and Time: Apr 20 2024 19:16:49
 
 Dimensions are in cm unless otherwise specified
 
@@ -26,6 +26,6 @@ ix 	 iy 	 phi 	 theta 	 x 	 y 	 x' 	 y'
 0	0	-90	9.42809	0	-1.45
 0	1	90	9.42809	0	1.45
 LThin =  0.01
-Total mass = 0.792127 kg
+Total mass = 0.85208 kg
 GDML file generated
-GDML file name: ../CadGeometry/DrilledVeto_04-04-2024_18-59-29.gdml
+GDML file name: ../CadGeometry/DrilledVeto_06-05-2024_09-58-04.gdml

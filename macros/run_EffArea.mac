@@ -6,13 +6,11 @@
 /gps/pos/type Plane
 /gps/pos/shape Square
 /gps/pos/centre 0 0 -2.3 cm
-/gps/pos/halfx 5.0 cm
-/gps/pos/halfy 5.0 cm
+/gps/pos/halfx 10.0 cm
+/gps/pos/halfy 10.0 cm
 /gps/ang/type iso
 /gps/ene/type Pow
 /gps/ene/alpha -1
-/gps/ene/min 0.01 MeV
-/gps/ene/max 200 MeV
 /gps/ene/gradient 0
 /gps/ene/intercept 1
 /gps/ang/maxtheta 0 deg
@@ -26,20 +24,25 @@
 /particleEnergyRandom/DebbuggingModeIsOn false
 
 
-#/process/em/auger true
-#/process/em/augerCascade true
-#/process/em/pixe true
-#/process/em/fluo true
-#/process/em/fluoANSTO true
-#/process/em/fluoBearden true
+/process/em/auger true
+/process/em/augerCascade true
+/process/em/pixe true
+/process/em/fluo true
+/process/em/fluoANSTO true
+/process/em/fluoBearden true
 
-#/cuts/setLowEdge 10 eV
-#/cuts/setHighEdge 2 TeV
+
+/gps/ene/min 0.01 MeV
+/gps/ene/max 5000 MeV
+
+
+/cuts/setLowEdge 10 eV
+/cuts/setHighEdge 2 TeV
 
 
 
 # SETTAGGIO DEI CUTS (EVENTUALMENTE ANCHE PER SINGOLA PARTICELLA - VEDI COMANDI COMMENTATI)
-#/run/setCut 10 nm
+/run/setCut 50 um
 
 /process/msc/StepLimit UseSafetyPlus
 
@@ -52,10 +55,10 @@
 # ---------------------------------------------------------------------------- #
 #                       DEFAULT FILE NAME FOR SAVING DATA                      #
 # ---------------------------------------------------------------------------- #
-/NameOfFile/NameOfFile gamma.root
+/NameOfFile/NameOfFile ../DST/gamma_19042024
 
 /run/initialize
-/run/beamOn 1000000
+/run/beamOn 5000000
 
 
 
