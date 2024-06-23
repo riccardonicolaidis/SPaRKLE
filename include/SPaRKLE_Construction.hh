@@ -84,6 +84,30 @@ private:
   G4VPhysicalVolume *physScintVeto; 
   G4VisAttributes   *visScintVeto;
 
+  //Calo A1
+  G4Box             *solidCalo_A1;
+  G4LogicalVolume   *logicCalo_A1;
+  G4VPhysicalVolume *physCalo_A1; 
+  G4VisAttributes   *visCalo_A1;
+  
+  //Calo A2
+  G4Box             *solidCalo_A2;
+  G4LogicalVolume   *logicCalo_A2;
+  G4VPhysicalVolume *physCalo_A2; 
+  G4VisAttributes   *visCalo_A2;
+
+  //Calo B1
+  G4Box             *solidCalo_B1;
+  G4LogicalVolume   *logicCalo_B1;
+  G4VPhysicalVolume *physCalo_B1; 
+  G4VisAttributes   *visCalo_B1;
+  
+  //Calo B2
+  G4Box             *solidCalo_B2;
+  G4LogicalVolume   *logicCalo_B2;
+  G4VPhysicalVolume *physCalo_B2; 
+  G4VisAttributes   *visCalo_B2;
+
   // DRILLED VETO
   // A: Front Side Drilled
   G4Box              *solidDrilledVeto;
@@ -144,6 +168,17 @@ private:
   // Scintillator Veto
   G4double xScintVeto, yScintVeto, zScintVeto;
   G4double TkScintVeto, LScintVeto;
+
+
+  // GAGG Calorimeters:
+
+  G4double xCalo_A1, yCalo_A1;
+  G4double xCalo_A2, yCalo_A2;
+  G4double xCalo_B1, yCalo_B1;
+  G4double xCalo_B2, yCalo_B2;
+  G4double zCalo;
+
+  G4double TkCalo, LCalo;
 
   // Drilled Veto
   // 0 is the front drilled face

@@ -58,8 +58,8 @@ void SPaRKLE_DetectorConstruction::DefineMaterials()
   std::vector<G4double> RIndexEJ200   = {1.58              , 1.58               , 1.58};
  
 
-  std::vector<G4double> Wavelength0 = { 400 * nm, 425*nm, 500*nm};
-  std::vector<G4double> Energy ;
+  std::vector<G4double> Wavelength0 = { 500 * nm, 425*nm, 400*nm};
+  std::vector<G4double> Energy;
 
   for (int i = 0; i < Wavelength0.size(); i++)
   {
@@ -191,6 +191,10 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   LScintVeto  = LActive - 0*cm;
   TkScintVeto = TK_GAGG;
 
+  // Dimensions of the GAGG calorimeters
+  LCalo = 4*cm;
+  TkCalo = TK_GAGG;
+
   myfile << "Plastic scintillator thickness: " << TkScintVeto/cm << " cm" << endl;
 
 
@@ -201,11 +205,36 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
 
   myfile << "Thin detector plane position: " << xThin/cm << " x " << yThin/cm << " x " << zThin/cm << " cm" << endl;
 
+
   xScintVeto = 0.;
   yScintVeto = 0.;
   zScintVeto = zThin + TkScintVeto/2. + TkPCBThin/2. + ExtraSpacing + SpacingPCBComponents/2.;
 
-  myfile << "First plastic scintillator position : " << xScintVeto/cm << " x " << yScintVeto/cm << " x " << zScintVeto/cm << " cm" << endl;
+ //myfile << "First plastic scintillator position : " << xScintVeto/cm << " x " << yScintVeto/cm << " x " << zScintVeto/cm << " cm" << endl;
+
+ 
+  xCalo_A1 = -2.05*cm;
+  yCalo_A1= 2.05*cm;
+
+  xCalo_A2 = 2.05*cm;
+  yCalo_A2= -2.05*cm;
+
+  xCalo_B1 = 2.05*cm;
+  yCalo_B1= 2.05*cm;
+
+  xCalo_B2 = -2.05*cm;
+  yCalo_B2= -2.05*cm;
+
+  zCalo = zThin + TkScintVeto/2. + TkPCBThin/2. + ExtraSpacing + SpacingPCBComponents/2.;
+
+  myfile << "Calo A1 position : " << xCalo_A1/cm << " x " << yCalo_A1/cm << " x " << zCalo/cm << " cm3" << endl;
+
+  myfile << "Calo A2 position : " << xCalo_A2/cm << " x " << yCalo_A2/cm << " x " << zCalo/cm << " cm3" << endl;
+
+  myfile << "Calo B1 position : " << xCalo_B1/cm << " x " << yCalo_B1/cm << " x " << zCalo/cm << " cm3" << endl;
+
+  myfile << "Calo B2 position : " << xCalo_B2/cm << " x " << yCalo_B2/cm << " x " << zCalo/cm << " cm3" << endl;
+
 
   // Construction of the Drilled Veto
   // BIGGER than the Veto on the back of the instrument
@@ -259,15 +288,14 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   visContainer   -> SetVisibility(false);
   logicContainer -> SetVisAttributes(visContainer);
 
-  solidScintVeto = new G4Box("solidScintVeto", LScintVeto*0.5, LScintVeto*0.5, TK_GAGG*0.5);
+
+  solidScintVeto = new G4Box("solidScintVeto", LScintVeto*0.5, LScintVeto*0.5, TkCalo*0.5);
   logicScintVeto = new G4LogicalVolume(solidScintVeto, GAGG, "logicScintVeto");
   visScintVeto   = new G4VisAttributes(G4Colour(1.,1.,0.));
   logicScintVeto -> SetVisAttributes(visScintVeto);
-  
-  
-  
-  
 
+
+  /*
   myfile << "Plastic scintillators \n\n" << endl;
 
   G4double zBottomVeto =0.;
@@ -289,7 +317,63 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   }
 
   zBottomVeto += 0.1*mm + TkScintVeto + ExtraSpacing + 1* mm;
-  
+*/
+
+
+  solidCalo_A1= new G4Box("solidCalo_A1", LCalo*0.5, LCalo*0.5, TkCalo*0.5);
+  logicCalo_A1 = new G4LogicalVolume(solidCalo_A1, GAGG, "logicCalo_A1");
+  visCalo_A1  = new G4VisAttributes(G4Colour(1.,1.,0.));
+  logicCalo_A1 -> SetVisAttributes(visCalo_A1);
+
+  solidCalo_A2= new G4Box("solidCalo_A2", LCalo*0.5, LCalo*0.5, TkCalo*0.5);
+  logicCalo_A2 = new G4LogicalVolume(solidCalo_A2, GAGG, "logicCalo_A2");
+  visCalo_A2  = new G4VisAttributes(G4Colour(1.,1.,0.));
+  logicCalo_A2 -> SetVisAttributes(visCalo_A2);
+
+  solidCalo_B1= new G4Box("solidCalo_B1", LCalo*0.5, LCalo*0.5, TkCalo*0.5);
+  logicCalo_B1 = new G4LogicalVolume(solidCalo_B1, GAGG, "logicCalo_B1");
+  visCalo_B1  = new G4VisAttributes(G4Colour(1.,1.,0.));
+  logicCalo_B1 -> SetVisAttributes(visCalo_B1);
+
+  solidCalo_B2= new G4Box("solidCalo_B2", LCalo*0.5, LCalo*0.5, TkCalo*0.5);
+  logicCalo_B2 = new G4LogicalVolume(solidCalo_B2, GAGG, "logicCalo_B2");
+  visCalo_B2  = new G4VisAttributes(G4Colour(1.,1.,0.));
+  logicCalo_B2 -> SetVisAttributes(visCalo_B2);
+  physCalo_B2 = new G4PVPlacement(0, G4ThreeVector(xCalo_B2, yCalo_B2, zCalo), logicCalo_B2, "physCalo_B2", logicContainer, false, 0, true);
+
+
+  G4double zBottomVeto =0.;
+
+  for(G4int i = 0; i < (N_PL_SCINT_NO_VETO); ++ i)
+  {
+    if(i == 0)// Add skin surface
+    {
+      physCalo_A1 = new G4PVPlacement(0, G4ThreeVector(xCalo_A1, yCalo_A1, zCalo), logicCalo_A1, "physCalo_A1", logicContainer, false, i, true);
+      physCalo_A2 = new G4PVPlacement(0, G4ThreeVector(xCalo_A2, yCalo_A2, zCalo), logicCalo_A2, "physCalo_A2", logicContainer, false, i, true);
+      physCalo_B1 = new G4PVPlacement(0, G4ThreeVector(xCalo_B1, yCalo_B1, zCalo), logicCalo_B1, "physCalo_B1", logicContainer, false, i, true);
+      physCalo_B2 = new G4PVPlacement(0, G4ThreeVector(xCalo_B2, yCalo_B2, zCalo), logicCalo_B2, "physCalo_B2", logicContainer, false, i, true);
+
+      zBottomVeto = zCalo;
+    }
+    else
+    {
+      physCalo_A1 = new G4PVPlacement(0, G4ThreeVector(xCalo_A1, yCalo_A1, zCalo + i*(0.1* mm + TkCalo + ExtraSpacing)), logicCalo_A1, "physCalo_A1", logicContainer, false, i, true);
+      physCalo_A2 = new G4PVPlacement(0, G4ThreeVector(xCalo_A2, yCalo_A2, zCalo + i*(0.1* mm + TkCalo + ExtraSpacing)), logicCalo_A2, "physCalo_A2", logicContainer, false, i, true);
+      physCalo_B1 = new G4PVPlacement(0, G4ThreeVector(xCalo_B1, yCalo_B1, zCalo + i*(0.1* mm + TkCalo + ExtraSpacing)), logicCalo_B1, "physCalo_B1", logicContainer, false, i, true);
+      physCalo_B2 = new G4PVPlacement(0, G4ThreeVector(xCalo_B2, yCalo_B2, zCalo + i*(0.1* mm + TkCalo + ExtraSpacing)), logicCalo_B2, "physCalo_B2", logicContainer, false, i, true);
+
+      zBottomVeto = zCalo + i*(0.1* mm + TkCalo + ExtraSpacing);
+    }
+    myfile << "Layer " << i << " of calorimeters placed at " << zCalo + i*(0.1* mm + TkCalo + ExtraSpacing) << " mm" << endl;
+    
+    TotalMass += (logicCalo_A1->GetMass())/kg;
+    TotalMass += (logicCalo_A2->GetMass())/kg;
+    TotalMass += (logicCalo_B1->GetMass())/kg;
+    TotalMass += (logicCalo_B2->GetMass())/kg;
+  }
+
+  zBottomVeto += zCalo + 0.1*mm + TkCalo + ExtraSpacing + 1* mm;
+
 
   VaschettaVeto = SPaRKLE_DetectorConstruction::SolidoVaschetta((zBottomVeto-zDrilledVeto - TkScintVeto/2.), 1*cm, LScintVeto+3*mm, LScintVeto+3*mm, LScintVeto+11*mm, LScintVeto+11*mm);
   logicVaschettaVeto = new G4LogicalVolume(VaschettaVeto, EJ200, "logicVaschettaVeto");
@@ -388,8 +472,11 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
     {
       CopyNoMatrix[ix][iy] = (jCopyNo++);
 
-      xCurrentHole = -(LSquareCentersThin/2.) + (xDelta/2.) + ix * xDelta;
-      yCurrentHole = -(LSquareCentersThin/2.) + (yDelta/2.) + iy * yDelta;
+      //xCurrentHole = -(LSquareCentersThin/2.) + (xDelta/2.) + ix * xDelta;
+      //yCurrentHole = -(LSquareCentersThin/2.) + (yDelta/2.) + iy * yDelta;
+
+      xCurrentHole = -LCalo*0.5 + iy*LCalo;
+      yCurrentHole = LCalo*0.5 - iy*LCalo;
 
       G4double Delta_ii_x = NxHoles/2. -0.5;
       G4double Delta_ii_y = NyHoles/2. -0.5;
@@ -449,12 +536,18 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
       //new G4PVPlacement(HoleTransformVeto, logicHoleVisualization, "physHoleVisualization", logicContainer, false, CopyNoMatrix[ix][iy], true);
 
       physSiDetThin   = new G4PVPlacement(0, G4ThreeVector(xCurrentHole,yCurrentHole,zThin) , logicSiDetThin, "physSiDetThin", logicContainer, false, CopyNoMatrix[ix][iy], true);
+      
       //physSiDetThick  = new G4PVPlacement(0, G4ThreeVector(xCurrentHoleThick,yCurrentHoleThick,zThick) , logicSiDetThick, "physSiDetThick", logicContainer, false, CopyNoMatrix[ix][iy], true);
     }
   }
 
-
+/*
   
+
+  physSiDetThin   = new G4PVPlacement(0, G4ThreeVector(-LCalo*0.5, LCalo*0.5,zThin) , logicSiDetThin, "physSiDetThin", logicContainer, false, 0, true);
+
+  physSiDetThin   = new G4PVPlacement(0, G4ThreeVector(LCalo*0.5, -LCalo*0.5,zThin) , logicSiDetThin, "physSiDetThin", logicContainer, false, 1, true);
+*/  
   
   // LOGIC DRILLED VETO
   logicDrilledVeto = new G4LogicalVolume(solidFinalDrilledVeto, EJ200, "logicDrilledVeto");
@@ -477,6 +570,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
 
   // PHYSICAL PLACEMENT DRILLED ALUMINIUM
   physDrilledAl  = new G4PVPlacement(0, G4ThreeVector(xDrilledAl,yDrilledAl,zDrilledAl) , logicDrilledAl, "physDrilledAl", logicContainer, false, 0, true);
+
   // PHYSICAL PLACEMENT DRILLED VETO
   physDrilledVeto  = new G4PVPlacement(0, G4ThreeVector(xDrilledVeto,yDrilledVeto,zDrilledVeto) , logicDrilledVeto, "physDrilledVeto", logicContainer, false, 0, true);
   

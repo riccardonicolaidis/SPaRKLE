@@ -1,9 +1,9 @@
 Report of the geometry of the detector
 ======================================
 
-Local Date and Time is: Mon May  6 09:58:04 2024
+Local Date and Time is: Sun Jun 23 11:11:20 2024
 
-Compilation Date and Time: Apr 20 2024 19:16:49
+Compilation Date and Time: Jun 23 2024 11:11:02
 
 Dimensions are in cm unless otherwise specified
 
@@ -13,19 +13,19 @@ Container dimensions: 200 x 200 x 200 cm
 Thin detector thickness: 100 um
 Plastic scintillator thickness: 1 cm
 Thin detector plane position: 0 x 0 x 0 cm
-First plastic scintillator position : 0 x 0 x 0.81 cm
+Calo A1 position : -2.05 x 2.05 x 0.81 cm3
+Calo A2 position : 2.05 x -2.05 x 0.81 cm3
+Calo B1 position : 2.05 x 2.05 x 0.81 cm3
+Calo B2 position : -2.05 x -2.05 x 0.81 cm3
 Drilled Veto thickness: 0.8 cm
 Drilled Veto position: 0 x 0 x -0.91 cm
-Plastic scintillators 
-
-
-Scintillator 0 placed at 8.1 mm
+Layer 0 of calorimeters placed at 8.1 mm
 Angles Direction
 ================================================
 ix 	 iy 	 phi 	 theta 	 x 	 y 	 x' 	 y'
-0	0	-90	9.42809	0	-1.45
-0	1	90	9.42809	0	1.45
+0	0	-90	9.42809	-2	2
+0	1	90	9.42809	2	-2
 LThin =  0.01
-Total mass = 0.85208 kg
+Total mass = 0.853095 kg
 GDML file generated
-GDML file name: ../CadGeometry/DrilledVeto_06-05-2024_09-58-04.gdml
+GDML file name: ../CadGeometry/DrilledVeto_23-06-2024_11-11-20.gdml
