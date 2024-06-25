@@ -19,107 +19,115 @@ void SPaRKLE_EventAction::EndOfEventAction(const G4Event* event)
   //man -> FillNtupleDColumn(0,);
 
   // DEFINITIONS OF THE HISTOGRAMNS WITH COUNTS
-  G4VHitsCollection* hc_Thin        = event->GetHCofThisEvent()->GetHC(0);
-  G4VHitsCollection* hc_Calo        = event->GetHCofThisEvent()->GetHC(1);
-  G4VHitsCollection* hc_VetoDrilled = event->GetHCofThisEvent()->GetHC(2);
-  G4VHitsCollection* hc_Bottom      = event->GetHCofThisEvent()->GetHC(3);
-
-  // DEFINITIONS OF THE VECTORS
-  G4int Nx = NX_SENSORS;
-  G4int Ny = NY_SENSORS;
 
 
-  G4double Ed_Thin [N_TOTAL_SENSORS];
-  G4double Ed_Calo[N_PL_SCINT_NO_VETO];
-  G4double Ed_VetoDrilled = 0.;
-  G4double Ed_VetoBottom = 0.;
 
-  G4double EdepInside = 0.;
+  G4VHitsCollection* hc_Calo  = event->GetHCofThisEvent()->GetHC(0);
+  G4VHitsCollection* hc_SD    = event->GetHCofThisEvent()->GetHC(1);
+  G4VHitsCollection* hc_VT    = event->GetHCofThisEvent()->GetHC(2);
+  G4VHitsCollection* hc_VB    = event->GetHCofThisEvent()->GetHC(3);
+  G4VHitsCollection* hc_VL    = event->GetHCofThisEvent()->GetHC(4);
+  
 
-  G4int jCopyNo = 0;
+  G4double Ed_Calo_A1 = 0.;
+  G4double Ed_Calo_A2 = 0.;
+  G4double Ed_Calo_B1 = 0.;
+  G4double Ed_Calo_B2 = 0.;
 
-  for( G4int ix = 0; ix < Nx; ++ix)
-  {
-    for( G4int iy = 0; iy < Ny; ++iy)
-    {
-      Ed_Thin [jCopyNo] = 0.;
-      ++jCopyNo;
-    }
-  }
+  G4double Ed_SD1 = 0.;
+  G4double Ed_SD2 = 0.;
 
-  for(G4int i = 0; i < (N_PL_SCINT_NO_VETO); ++i)
-  {
-    Ed_Calo[i] = 0.;
-  }
+  G4double Ed_VT = 0.;
+  G4double Ed_VB = 0.;
 
-  // ENERGY MEASUREMENTS
+  G4double Ed_VL0 = 0.;
+  G4double Ed_VL1 = 0.;
+  G4double Ed_VL2 = 0.;
+  G4double Ed_VL3 = 0.;
+
 
   G4int ReplicaNo;
   
-  for(G4int iH=0;iH < (hc_Thin->GetSize());++iH){
-    HitClass* hit=static_cast<HitClass*>(hc_Thin->GetHit(iH));
-    ReplicaNo = hit-> GetReplicaNb();
-    Ed_Thin[ReplicaNo]+=hit->GetEdep(); //adding the energies of the steps inside each detector, identified with chamber number
-    EdepInside += hit->GetEdep();
-  } 
-
-
   for(G4int iH=0;iH < (hc_Calo->GetSize());++iH){
     HitClass* hit=static_cast<HitClass*>(hc_Calo->GetHit(iH));
     ReplicaNo = hit-> GetReplicaNb();
-    Ed_Calo[ReplicaNo]+=hit->GetEdep(); //adding the energies of the steps inside each detector, identified with chamber number
+
+    if(ReplicaNo==0)
+      Ed_Calo_A1 += hit->GetEdep();
+    
+    if(ReplicaNo==1)
+      Ed_Calo_A2 += hit->GetEdep();
+    
+    if(ReplicaNo==2)
+      Ed_Calo_B1 += hit->GetEdep();
+    
+    if(ReplicaNo==3)
+      Ed_Calo_B2 += hit->GetEdep();
+  } 
+
+  for(G4int iH=0;iH < (hc_SD->GetSize());++iH){
+    HitClass* hit=static_cast<HitClass*>(hc_SD->GetHit(iH));
+    ReplicaNo = hit-> GetReplicaNb();
+
+    if(ReplicaNo==0)
+      Ed_SD1 += hit->GetEdep();
+  
+    if(ReplicaNo==1)
+      Ed_SD2 += hit->GetEdep();
+  } 
+
+  for(G4int iH=0;iH < (hc_VT->GetSize());++iH){
+    HitClass* hit=static_cast<HitClass*>(hc_VT->GetHit(iH));
+    Ed_VT += hit->GetEdep();    
+  } 
+
+  for(G4int iH=0;iH < (hc_VB->GetSize());++iH){
+    HitClass* hit=static_cast<HitClass*>(hc_VB->GetHit(iH));
+    Ed_VB += hit->GetEdep();    
   }
+
+  for(G4int iH=0;iH < (hc_VL->GetSize());++iH){
+    HitClass* hit=static_cast<HitClass*>(hc_VL->GetHit(iH));
+    ReplicaNo = hit-> GetReplicaNb();
+
+    if(ReplicaNo==0)
+      Ed_VL0 += hit->GetEdep();
+    
+    if(ReplicaNo==1)
+      Ed_VL1 += hit->GetEdep();
+    
+    if(ReplicaNo==2)
+      Ed_VL2 += hit->GetEdep();
+    
+    if(ReplicaNo==3)
+      Ed_VL3 += hit->GetEdep();
+  }
+
+
+
+
+
+
+
+
+
 
   
-  for(G4int iH=0;iH < (hc_VetoDrilled->GetSize());++iH){
-    HitClass* hit=static_cast<HitClass*>(hc_VetoDrilled->GetHit(iH));
-    Ed_VetoDrilled+=hit->GetEdep(); //adding the energies of the steps inside each detector, identified with chamber number
-  }
+  man -> FillNtupleDColumn(0, 7, Ed_Calo_A1);
+  man -> FillNtupleDColumn(0, 8, Ed_Calo_A2);
+  man -> FillNtupleDColumn(0, 9, Ed_Calo_B1);
+  man -> FillNtupleDColumn(0, 10, Ed_Calo_B2);
 
-  for(G4int iH=0;iH < (hc_Bottom->GetSize());++iH){
-    HitClass* hit=static_cast<HitClass*>(hc_Bottom->GetHit(iH));
-    Ed_VetoBottom+=hit->GetEdep(); //adding the energies of the steps inside each detector, identified with chamber number
-  }
+  man -> FillNtupleDColumn(0, 11, Ed_SD1);
+  man -> FillNtupleDColumn(0, 12, Ed_SD2);
 
+  man -> FillNtupleDColumn(0, 13, Ed_VT);
+  man -> FillNtupleDColumn(0, 14, Ed_VB);
 
-  G4int CurrentTuple = 8;
-  for(G4int i = 0; i < (N_PL_SCINT_NO_VETO);++i)
-  {
-    man -> FillNtupleDColumn(0, CurrentTuple, Ed_Calo[i]);
-    ++CurrentTuple;
-  }
-  
-  man -> FillNtupleDColumn(0, CurrentTuple++, Ed_VetoDrilled);
-
-
-  man -> FillNtupleDColumn(0, CurrentTuple++, Ed_VetoBottom);
-
-  //  THRESHOLDS
-  //G4double Eth_Veto = 1*keV;
-  //G4double Eth_VetoDrilled = 1*keV;
-       
-  G4bool AtLeastOne = false;
-
-  // nTupleID 0 = particle gun
-  jCopyNo = 0;
-  for( G4int ix = 0; ix < Nx; ++ix)
-  {
-    for( G4int iy = 0; iy < Ny; ++iy)
-    {
-      man -> FillNtupleDColumn(0, (CurrentTuple+1)+jCopyNo, Ed_Thin[jCopyNo]);
-
-      if((Ed_Thin[jCopyNo]>0))
-      {
-        AtLeastOne = true;
-        man -> FillNtupleDColumn(0, CurrentTuple, jCopyNo);
-      }
-      else
-      {
-        man -> FillNtupleDColumn(0, CurrentTuple, -1);
-      }
-      ++jCopyNo;
-    }
-  }
+  man -> FillNtupleDColumn(0, 15, Ed_VL0);
+  man -> FillNtupleDColumn(0, 16, Ed_VL1);
+  man -> FillNtupleDColumn(0, 17, Ed_VL2);
+  man -> FillNtupleDColumn(0, 18, Ed_VL3);
 
 
 

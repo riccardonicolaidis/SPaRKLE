@@ -32,65 +32,6 @@ The detector is based on the $\Delta E - E$ technique. This simulation is aimed 
 
 This geometry has been implemented within the DetectorConstruction class.
 
-**The number of holes is parametrised in the myglobals.cc**
---------------------
-
-- All the parameters are described in the first part of the **Construct()** method
-
-- **All the variables used have been declared in the preamble of the class declaration (file .hh) in the private section**
-
-- **All the energy measurements are performed invoking the Sensitive Detector class**
-
-
-- In the ConstructSDandFields() methods are defined all the sensitive detectors.
-
-**PROBLEM**:
-------------------------
-
-Since the sensitive detector class has been used, it is not possible to reinitialize the geometry in order to change some parameters and materials because there is a problem with the sensitive detector construction. **To be solved!**
-
-
-## Particle gun and GPS
-
-There are two possible way to generate particles:
-- The **General Particle Source** generates an isotropic flux of particles from a generation plane. To set the required features one needs to write a macros as in the following case. As you can see, the **Debugging Mode** has to be switched off. By default it is switched off but it is always a good practise to initialise in the macro the value of the boolean variable.
-
-```
-/particleEnergyRandom/DebbuggingModeIsOn false
-
-/gps/verbose 0
-/gps/pos/type Plane
-/gps/pos/shape Square
-/gps/pos/centre 0 0 -2.4 cm
-/gps/pos/halfx 6.1 cm
-/gps/pos/halfy 6.1 cm
-/gps/ang/type iso
-/gps/ene/type Lin
-/gps/ene/gradient 0
-/gps/ene/intercept 1
-/gps/ang/maxtheta 90 deg
-/gps/ang/mintheta 0 deg
-
- # -------------------------------------------------------- #
- #                         ELECTRONS                        #
- # -------------------------------------------------------- #
-
-/gps/particle e-
-/gps/ene/min 0.001 MeV
-/gps/ene/max 1 MeV
-
-/NameOfFile/NameOfFile 01_08_2022_ELECTRON
-/run/beamOn 10000000
-
-```
-
-- The **Debugging Mode** is extremely useful when studying the energy deposition inside the materials involved in the detector. With this mode, particles are shooted exactly along the axes of the collimators as it is possible to see from the pictures
-
-
-
-
-
-
 
 -----------------------
 ## Brief description of the directory structure
@@ -105,30 +46,17 @@ Files are divided into two cathegories:
 ./Name_of_the_executable_file Name_of_the_macro.mac
 ```
 - **ROOT_macros** : Here there are all the .root macros to process data and also used to generate all the plots. To propely run these macros you need to follow these steps:
-  - Run the sumulation in batch mode using one of the macros .mac in the ./macros folder. For this example take  the following (you need to be in the build directory)
-```
-./Simulation run_01_08_2022.mac
-```
-  - Create a new directory in the LEM_SIMULATION/ folder named DST_01_08_2022
-```
-mkdir ${LOCATION_REPOSITORY}/LEM_SIMULATION/DST_01_08_2022
-```
-  - Move all the .root files in this directory 
-```
-cd build
-mv *.root ../DST_01_08_2022/.
-```
-  - Create a .txt file named FileNames.txt and write the names of the files in this .txt 
-```
-01_08_2022_ELECTRON.root
-01_08_2022_PROTON.root
-01_08_2022_ALPHA.root
-```
-  - Now, from this directory you can run a root macro
-```
-cd ${LOCATION_REPOSITORY}/LEM_SIMULATION/DST_01_08_2022
-root -l ../ROOT_macros/AngleResolution.C
-```
+
+
+
+
+## How to use the files in the simulation directory
+1. Create the build folder
+2. Build the project using cmake
+3. Run the exacutable
+  a. If you want to run the simulation in interactive you should run the executable without arguments
+  b. If you want to run the simulation in batch mode you should add the macro as argument
+4. Use the macros in the ROOT_macro directory to analyze data and create the plots
 
 
 

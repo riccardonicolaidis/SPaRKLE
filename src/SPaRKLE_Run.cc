@@ -13,52 +13,36 @@ SPaRKLE_RunAction::SPaRKLE_RunAction(SPaRKLE_DetectorConstruction* det, SPaRKLE_
     fMessenger = new G4GenericMessenger(this, "/NameOfFile/","Name of the file to save data");
     fMessenger -> DeclareProperty("NameOfFile", TotalFileName, "Name of the file to save data");
 
-    G4int Nx = NX_SENSORS;
-    G4int Ny = NY_SENSORS;
 
     G4int jCopyNo = 0;
 
     // Ntuple particle generator
     man -> CreateNtuple("Edep","Edep");
-    man -> CreateNtupleDColumn("RandNumber");       // 0
-    man -> CreateNtupleDColumn("RandEnergy");       // 1
-    man -> CreateNtupleDColumn("Xgen");             // 2
-    man -> CreateNtupleDColumn("Ygen");             // 3 
-    man -> CreateNtupleDColumn("Zgen");             // 4 
-    man -> CreateNtupleDColumn("pDirX");            // 5 
-    man -> CreateNtupleDColumn("pDirY");            // 6 
-    man -> CreateNtupleDColumn("pDirZ");            // 7
+    man -> CreateNtupleDColumn("Egen"); // 0       
+    man -> CreateNtupleDColumn("Xgen"); // 1
+    man -> CreateNtupleDColumn("Ygen"); // 2
+    man -> CreateNtupleDColumn("Zgen"); // 3
+    man -> CreateNtupleDColumn("pDirX"); // 4
+    man -> CreateNtupleDColumn("pDirY"); // 5
+    man -> CreateNtupleDColumn("pDirZ"); // 6
 
-    
+    man -> CreateNtupleDColumn("Calo_A1"); // 7
+    man -> CreateNtupleDColumn("Calo_A2"); // 8
+    man -> CreateNtupleDColumn("Calo_B1"); // 9
+    man -> CreateNtupleDColumn("Calo_B2"); // 10
+
+    man -> CreateNtupleDColumn("SD1"); // 11
+    man -> CreateNtupleDColumn("SD2"); // 12
+
+    man -> CreateNtupleDColumn("VT"); // 13
+    man -> CreateNtupleDColumn("VB"); // 14
+    man -> CreateNtupleDColumn("VL0"); // 15
+    man -> CreateNtupleDColumn("VL1"); // 16
+    man -> CreateNtupleDColumn("VL2"); // 17
+    man -> CreateNtupleDColumn("VL3"); // 18
             
-    G4String NameTupleColumn;
-    G4String ThickName;
-    G4String ThinName;
 
 
-
-    for(int i = 0; i < (N_PL_SCINT_NO_VETO); ++i)
-    {
-        NameTupleColumn = "Ed_Calo" + std::to_string(i);
-        man -> CreateNtupleDColumn(NameTupleColumn);          // 8
-    }
-    man -> CreateNtupleDColumn("Ed_DrilledVeto");   // 9
-    man -> CreateNtupleDColumn("Ed_BottomVeto");    // 10
-
-
-    man -> CreateNtupleDColumn("NumberID");         // 11
-
-
-    for(G4int ix = 0; ix < Nx ; ++ix)
-    {
-        for(G4int iy = 0; iy < Ny ; ++iy)
-        {           
-            NameTupleColumn = "x"+std::to_string(ix)+"_y"+std::to_string(iy)+"_ID"+std::to_string(jCopyNo);
-            ThinName = "Thin_"+NameTupleColumn;            
-            man -> CreateNtupleDColumn(ThinName); 
-            ++jCopyNo;
-        }
-    }
 }
 
 
@@ -68,10 +52,9 @@ SPaRKLE_RunAction::~SPaRKLE_RunAction()
 void SPaRKLE_RunAction::BeginOfRunAction(const G4Run* run)
 {
     G4AnalysisManager *man = G4AnalysisManager::Instance();    
-    G4int TkThick = TK_THICK/um;
 
 
-    TotalFileNameFinal = TotalFileName + "_" + std::to_string(TkThick) +"_um.root";
+    TotalFileNameFinal = TotalFileName + ".root";
 
     man -> OpenFile(TotalFileNameFinal);
 }

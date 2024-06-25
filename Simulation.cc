@@ -34,7 +34,7 @@ int main(int argc, char **argv)
   G4RunManager *runManager = new G4RunManager();
 
   G4VModularPhysicsList *physicsList = new FTFP_BERT;
-  physicsList   -> ReplacePhysics(new G4EmLowEPPhysics());
+  //physicsList   -> ReplacePhysics(new G4EmLowEPPhysics());
   physicsList   -> ReplacePhysics(new G4EmStandardPhysics_option4());
   
   

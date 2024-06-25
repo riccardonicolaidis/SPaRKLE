@@ -38,7 +38,6 @@
 #include "SPaRKLE_Detector.hh"
 
 
-#if NEW_GEOMETRY == 1
 
 
 
@@ -72,10 +71,16 @@ private:
   G4VisAttributes   *visContainer;
 
   // Thin detector
-  G4Tubs            *solidSiDetThin;
-  G4LogicalVolume   *logicSiDetThin;
-  G4VPhysicalVolume *physSiDetThin;
-  G4VisAttributes   *visSiDetThin;
+  G4Tubs            *solidSiDet;
+  G4LogicalVolume   *logicSiDet;
+  G4VPhysicalVolume *physSiDet;
+  G4VisAttributes   *visSiDet;
+
+  // Al Frame 
+  G4Tubs            *solidAlFrame;
+  G4LogicalVolume   *logicAlFrame;
+  G4VPhysicalVolume *physAlFrame;
+  G4VisAttributes   *visAlFrame;
 
 
   // Scintillator Veto
@@ -85,28 +90,11 @@ private:
   G4VisAttributes   *visScintVeto;
 
   //Calo A1
-  G4Box             *solidCalo_A1;
-  G4LogicalVolume   *logicCalo_A1;
-  G4VPhysicalVolume *physCalo_A1; 
-  G4VisAttributes   *visCalo_A1;
+  G4Box             *solidCalo;
+  G4LogicalVolume   *logicCalo;
+  G4VPhysicalVolume *physCalo; 
+  G4VisAttributes   *visCalo;
   
-  //Calo A2
-  G4Box             *solidCalo_A2;
-  G4LogicalVolume   *logicCalo_A2;
-  G4VPhysicalVolume *physCalo_A2; 
-  G4VisAttributes   *visCalo_A2;
-
-  //Calo B1
-  G4Box             *solidCalo_B1;
-  G4LogicalVolume   *logicCalo_B1;
-  G4VPhysicalVolume *physCalo_B1; 
-  G4VisAttributes   *visCalo_B1;
-  
-  //Calo B2
-  G4Box             *solidCalo_B2;
-  G4LogicalVolume   *logicCalo_B2;
-  G4VPhysicalVolume *physCalo_B2; 
-  G4VisAttributes   *visCalo_B2;
 
   // DRILLED VETO
   // A: Front Side Drilled
@@ -117,17 +105,35 @@ private:
   G4VisAttributes    *visDrilledVeto;
 
 
+  // VETO LATERAL
+  G4Box              *solidLateralVeto;
+  G4LogicalVolume    *logicLateralVeto;
+  G4VPhysicalVolume  *physLateralVeto;
+  G4VisAttributes    *visLateralVeto;
 
-  // DRILLED ALUMINIUM
-  G4Box              *solidDrilledAl0;
-  G4Box              *solidDrilledAl1Ext; // External
-  G4Box              *solidDrilledAl1Int; // Internal
-  G4SubtractionSolid *solidDrilledAl1;    // Subtraction
-  G4UnionSolid       *solidDrilledAl;
-  G4LogicalVolume    *logicDrilledAl;
-  G4VPhysicalVolume  *physDrilledAl;
-  G4SubtractionSolid *solidFinalDrilledAl;
-  G4VisAttributes    *visDrilledAl;
+  // VETO BOTTOM
+  G4Box              *solidBottomVeto;
+  G4LogicalVolume    *logicBottomVeto;
+  G4VPhysicalVolume  *physBottomVeto;
+  G4VisAttributes    *visBottomVeto;
+
+
+  //ALUMINIUM
+  G4Box              *solidAlTop;
+  G4SubtractionSolid *solidAlTopFinal;
+  G4LogicalVolume    *logicAlTop;
+  G4VPhysicalVolume  *physAlTop;
+  G4VisAttributes    *visAl;
+
+  G4Box              *solidAlLateral1;
+  G4LogicalVolume    *logicAlLateral1;
+  G4VPhysicalVolume  *physAlLateral1;
+
+  G4Box              *solidAlLateral2;
+  G4LogicalVolume    *logicAlLateral2;
+  G4VPhysicalVolume  *physAlLateral2;
+
+
 
 
   // HOLE 
@@ -151,109 +157,8 @@ private:
 
   // Thin detector 
   // Active layer zone
-  G4double xThin, yThin, zThin; // Position of the active layer
-  G4double TkThin, LThin;       // Thickness (100 um, 300 um) and size of acyive layer
   
 
-  // Define the size of the active layer. 
-  // The size of the square of the Thick detectors is a constraint!!!
-  G4double LActive, LSquareCentersThin;
-
-
-
-
-  // Circular detector DATA
-  G4double rThinDet;                      // Radius of the SILICON detector
-
-  // Scintillator Veto
-  G4double xScintVeto, yScintVeto, zScintVeto;
-  G4double TkScintVeto, LScintVeto;
-
-
-  // GAGG Calorimeters:
-
-  G4double xCalo_A1, yCalo_A1;
-  G4double xCalo_A2, yCalo_A2;
-  G4double xCalo_B1, yCalo_B1;
-  G4double xCalo_B2, yCalo_B2;
-  G4double zCalo;
-
-  G4double TkCalo, LCalo;
-
-  // Drilled Veto
-  // 0 is the front drilled face
-  // 1 is the external box
-  G4double LxDrilledVeto, LyDrilledVeto, LzDrilledVeto;
-  G4double xDrilledVeto, yDrilledVeto, zDrilledVeto;
-  G4double TkDrilledVeto;
-  G4double TkCompenetration;
-
-
-  // Drilled Al
-  // 0 is the front drilled face
-  // 1 is the external box
-  G4double LxDrilledAl0, LyDrilledAl0;
-  G4double xDrilledAl, yDrilledAl, zDrilledAl;
-  G4double TkDrilledAl0;
-  G4double LxDrilledAl1, LyDrilledAl1;
-  G4double LzDrilledAl1;
-
-
-  // PCB
-  G4double TkPCBThin;
-  G4double LxPCB, LyPCB;
-
-
-  // PCB THIN DETECTOR
-  G4Box              *solidPCBThin;
-  G4SubtractionSolid *solidPCBThinFinal;
-  G4LogicalVolume    *logicPCBThin;
-  G4VPhysicalVolume  *physPCBThin;
-  G4VisAttributes    *visPCBThin;
-
-
-  // HOLES IN THE PCB
-  G4Tubs             *solidHolePCB;
-
-  // LATERAL VETO
-  G4Box              *solidLateralVeto;
-  G4LogicalVolume    *logicLateralVeto;
-  G4VPhysicalVolume  *physLateralVeto;
-  G4VisAttributes    *visLateralVeto;
-
-
-  G4UnionSolid *VaschettaVeto;
-  G4LogicalVolume *logicVaschettaVeto;
-  G4VPhysicalVolume *physVaschettaVeto;
-  G4VisAttributes *visVaschettaVeto;
-
-
-  
-  // USEFUL QUANTITIES 
-  G4double xCurrentHole, yCurrentHole;
-  G4double xDelta, yDelta;
-
-
-  G4double LxLateralVeto, LzLateralVeto, TkLateralVeto;
-
-  G4double ExtraSpacing;
-  G4double SpacingPCBComponents;
-
-  G4int NxHoles;
-  G4int NyHoles;
-
-  G4double rHoles;
-  G4double rHolesPCB;
-  G4double LengthHole;
-
-  G4double theta;
-  G4double phi;
-  G4double distanceR;
-  G4double thetaMax;
-  G4double RMax;
-  G4int CopyNo;
-
-  G4double TotalMass;
 
 
 
@@ -279,5 +184,4 @@ private:
 
 
 
-#endif
 #endif

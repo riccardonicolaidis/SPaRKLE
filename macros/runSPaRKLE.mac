@@ -1,81 +1,66 @@
 
-#/cuts/setLowEdge 100 eV
+/cuts/setLowEdge 100 eV
 
 /run/initialize 
 
-/particleEnergyRandom/DebbuggingModeIsOn true
-/particleEnergyRandom/IsExponential true
-
-# --------------------------------- ELECTRON --------------------------------- #
-
-/gun/particle e-
-/particleEnergyRandom/Ek_min 0.094
-/particleEnergyRandom/Ek_max 200
-/NameOfFile/NameOfFile ../DST/ELECTRON_2cm
-
-/run/beamOn 200000
 
 
-
-# ----------------------------------- PROTON --------------------------------- #
-
-/gun/particle proton
-/particleEnergyRandom/Ek_min 3.
-/particleEnergyRandom/Ek_max 300.0
-/NameOfFile/NameOfFile ../DST/PROTON_2cm
-/run/beamOn 200000
-
-
-
-# ----------------------------------- ALPHA ---------------------------------- #
-
-/gun/particle alpha
-/particleEnergyRandom/Ek_min 10.
-/particleEnergyRandom/Ek_max 600.
-/NameOfFile/NameOfFile ../DST/ALPHA_2cm
-/run/beamOn 200000
-
-
-# ----------------------------------- GAMMA ---------------------------------- #
-
-/particleEnergyRandom/DebbuggingModeIsOn false
-
-
-/gps/verbose 0
 /gps/pos/type Plane
-/gps/pos/shape Square
-/gps/pos/centre 0 0 -2.4 cm
-/gps/pos/halfx 6.0 cm
-/gps/pos/halfy 6.0 cm
+
+# RUN 1
+/gps/pos/shape Rectangle
+/gps/pos/centre 0. 0. -3.2 cm
+/gps/pos/halfx 5 cm
+/gps/pos/halfy 5 cm
+
+
+# RUN 2
+#/gps/pos/shape Circle
+#/gps/pos/radius 4 cm
+#/gps/pos/centre -2.5 2.5 -3.2 cm
+
+
 /gps/ang/type iso
-/gps/ene/type Pow
-/gps/ene/alpha 1.0
-
-
-/gps/ang/maxtheta 90 deg
 /gps/ang/mintheta 0 deg
+/gps/ang/maxtheta 90 deg
+/gps/ang/minphi 0 deg
+/gps/ang/maxphi 360 deg
 
-/gps/particle gamma
-/gps/ene/min 6 keV
-/gps/ene/max 500 MeV
 
-# ----------------------------------- GAMMA ---------------------------------- #
-
-/particleEnergyRandom/DebbuggingModeIsOn false
-
-/gps/verbose 0
-/gps/pos/type Plane
-/gps/pos/shape Square
-/gps/pos/centre 0 0 -2.4 cm
-/gps/pos/halfx 6.0 cm
-/gps/pos/halfy 6.0 cm
-/gps/ang/type iso
 /gps/ene/type Pow
-/gps/ene/alpha 1.0
-/gps/ene/min 6 keV
-/gps/ene/max 1000 MeV
+/gps/ene/alpha -1
 
 
 
-/NameOfFile/NameOfFile ../DST/GAMMA_2cm
-/run/beamOn 200000
+# Electron
+#/NameOfFile/NameOfFile ../DST_Acc/e
+#/gps/particle e-
+#/gps/ene/min 0.1 MeV
+#/gps/ene/max 50 MeV
+#/run/beamOn 100000000
+
+# Proton
+#/NameOfFile/NameOfFile ../DST_Acc/p
+#/gps/particle proton
+#/gps/ene/min 3 MeV
+#/gps/ene/max 200 MeV
+#/run/beamOn 100000000
+
+
+
+
+# gamma
+/NameOfFile/NameOfFile ../DST_Acc/gamma_2
+/gps/pos/shape Rectangle
+/gps/pos/centre 0. 0. -3.2 cm
+/gps/pos/halfx 6 cm
+/gps/pos/halfy 6 cm
+/gps/ang/type iso
+/gps/ang/mintheta 0 deg
+/gps/ang/maxtheta 0 deg
+/gps/ang/minphi 0 deg
+/gps/ang/maxphi 360 deg
+/gps/particle gamma
+/gps/ene/min 10 keV
+/gps/ene/max 500 MeV
+/run/beamOn 10000000

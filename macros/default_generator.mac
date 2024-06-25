@@ -18,37 +18,53 @@
 /gps/ang/mintheta 0 deg
 
 
-# ---------------------------------------------------------------------------- #
-#                    PARTICLE GUN FOR DEBUGGING MODE CONFIOG                   #
-# ---------------------------------------------------------------------------- #
 
-/particleEnergyRandom/DebbuggingModeIsOn false
-
-
-
-/process/em/auger true
-/process/em/augerCascade true
-/process/em/pixe true
-/process/em/fluo true
-/process/em/fluoANSTO true
-/process/em/fluoBearden true
+#/process/em/auger true
+#/process/em/augerCascade true
+#/process/em/pixe true
+#/process/em/fluo true
+#/process/em/fluoANSTO true
+#/process/em/fluoBearden true
 
 
 /gps/ene/min 0.01 MeV
 /gps/ene/max 5000 MeV
 
 
-/cuts/setLowEdge 10 eV
-/cuts/setHighEdge 2 TeV
+#/cuts/setLowEdge 500 eV
+#/cuts/setHighEdge 2 TeV
 
 
 
 # SETTAGGIO DEI CUTS (EVENTUALMENTE ANCHE PER SINGOLA PARTICELLA - VEDI COMANDI COMMENTATI)
-/run/setCut 50 um
+/run/setCut 1 mm
 
 /process/msc/StepLimit UseSafetyPlus
 
 
+# Electrons
+/NameOfFile/NameOfFile ../DST/e
+/gps/particle e-
+/gps/pos/type Plane
+/gps/pos/shape Rectangle
+/gps/pos/centre 0. 0. -3.2 cm
+/gps/pos/halfx 5 cm
+/gps/pos/halfy 5 cm
+
+
+
+
+/gps/ang/type iso
+/gps/ang/mintheta 0 deg
+/gps/ang/maxtheta 90 deg
+/gps/ang/minphi 0 deg
+/gps/ang/maxphi 360 deg
+
+
+/gps/ene/type Pow
+/gps/ene/alpha -1
+/gps/ene/min 0.1 MeV
+/gps/ene/max 10 MeV
 
 
 

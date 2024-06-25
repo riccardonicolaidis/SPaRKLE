@@ -10,6 +10,20 @@
         "macroAcceptance.C": "cpp",
         "GeometricalFactor.C": "cpp",
         "testHist.C": "cpp",
-        "SPaRKLE_EffArea.C": "cpp"
+        "SPaRKLE_EffArea.C": "cpp",
+        "ExtendedGeometry.C": "cpp",
+        "Acceptance_LEM100.C": "cpp",
+        "AnalysisCZTThickness.C": "cpp",
+        "AnalysisSimulation.C": "cpp",
+        "AnalysisSimulation3.C": "cpp",
+        "AngleResolution.C": "cpp",
+        "AngleResolutionLEM100.C": "cpp",
+        "ComparisonSiCZT.C": "cpp",
+        "AnalysisSimulation2.C": "cpp",
+        "GDMLMacro.C": "cpp",
+        "MuonMip.C": "cpp",
+        "Resolutions.C": "cpp",
+        "Charged_Particles.C": "cpp",
+        "Photons.C": "cpp"
     }
 }
