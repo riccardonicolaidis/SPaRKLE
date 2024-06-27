@@ -282,7 +282,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   solidFinalDrilledVeto = new G4SubtractionSolid("solidDrilledvetoFinal",solidFinalDrilledVeto, solidHole, rot, *center_SD2);
 
   logicDrilledVeto = new G4LogicalVolume(solidFinalDrilledVeto, EJ200, "logicDrilledVeto");
-  visDrilledVeto = new G4VisAttributes(G4Color(0.,0.,1.,0.3));
+  visDrilledVeto = new G4VisAttributes(G4Color(0.,0.,1.,1.));
   logicDrilledVeto -> SetVisAttributes(visDrilledVeto);
 
   new G4PVPlacement(0, G4ThreeVector(0,0,zVetoTop), logicDrilledVeto, "physDrilledVeto", logicContainer, false,0,true);
@@ -296,7 +296,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
   G4double zVetoBottom = zCalo + TkCalo/2. + VetoBottomTk/2. + 1*mm;
   solidBottomVeto = new G4Box("solidVetoBottom",Displacing_Calo*2,Displacing_Calo*2, VetoTopTk/2.);
   logicBottomVeto = new G4LogicalVolume(solidBottomVeto, EJ200, "logicBottomVeto");
-  visBottomVeto = new G4VisAttributes(G4Color(0.,0.,1.,0.3));
+  visBottomVeto = new G4VisAttributes(G4Color(0.,0.,1.,1.));
   logicBottomVeto -> SetVisAttributes(visBottomVeto);
 
   new G4PVPlacement(0, G4ThreeVector(0,0,zVetoBottom), logicBottomVeto, "physBottomVeto", logicContainer, false,0,true);
@@ -309,7 +309,7 @@ G4VPhysicalVolume *SPaRKLE_DetectorConstruction::Construct()
 
   solidLateralVeto = new G4Box("solidLateralVeto", 2*Displacing_Calo, VetoLateralTk/2., VetoLateralHeight/2.);
   logicLateralVeto = new G4LogicalVolume(solidLateralVeto, EJ200, "logicLateralVeto");
-  visLateralVeto = new G4VisAttributes(G4Color(0.,0.,1.,0.3));
+  visLateralVeto = new G4VisAttributes(G4Color(0.,0.,1.,1.));
   logicLateralVeto -> SetVisAttributes(visLateralVeto);
 
   new G4PVPlacement(0, G4ThreeVector(0, xyVetoLateral, zVetoLateral), logicLateralVeto, "physLateralVeto", logicContainer, false, 0, true);

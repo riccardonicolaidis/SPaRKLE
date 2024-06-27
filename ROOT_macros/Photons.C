@@ -119,113 +119,108 @@ int Photons()
 
 
 
-    // X axis
-    double Egen_0 = 10e-3;
-    double Egen_1 = 100.;
-    int Nx = 200;
+    // // X axis
+    // double Egen_0 = 10e-3;
+    // double Egen_1 = 100.;
+    // int Nx = 200;
 
 
-    double E_det_0 = 10e-3;
-    double E_det_1 = 500.;
-    int Ny = 200;
+    // double E_det_0 = 10e-3;
+    // double E_det_1 = 500.;
+    // int Ny = 200;
 
-    TH2DLog *h_migr = new TH2DLog();
-    h_migr -> SetXAxis(Egen_0, Egen_1, Nx);
-    h_migr -> SetYAxis(E_det_0, E_det_1, Ny);
-    h_migr -> SetTitle("");
-
-
-    // Calo_A1
-    h_migr -> SetName("h_A1");
-    h_migr -> GenerateHistogram();
-    TH2D *h_A1 = (TH2D*)h_migr->GetHistogram();
-
-    // Calo_A2
-    h_migr -> SetName("h_A2");
-    h_migr -> GenerateHistogram();
-    TH2D *h_A2 = (TH2D*)h_migr->GetHistogram();
-
-    // Calo_B1
-    h_migr -> SetName("h_B1");
-    h_migr -> GenerateHistogram();
-    TH2D *h_B1 = (TH2D*)h_migr->GetHistogram();
-
-    // Calo_B2
-    h_migr -> SetName("h_B2");
-    h_migr -> GenerateHistogram();
-    TH2D *h_B2 = (TH2D*)h_migr->GetHistogram();
+    // TH2DLog *h_migr = new TH2DLog();
+    // h_migr -> SetXAxis(Egen_0, Egen_1, Nx);
+    // h_migr -> SetYAxis(E_det_0, E_det_1, Ny);
+    // h_migr -> SetTitle("");
 
 
-    cout << "Filling Migration Matrices" << endl;
-    Edep -> Draw("Calo_A1:Egen>>h_A1", GoodEvents_photons_PID_1_NoVB.Data(), "goff");
+    // // Calo_A1
+    // h_migr -> SetName("h_A1");
+    // h_migr -> GenerateHistogram();
+    // TH2D *h_A1 = (TH2D*)h_migr->GetHistogram();
+
+    // // Calo_A2
+    // h_migr -> SetName("h_A2");
+    // h_migr -> GenerateHistogram();
+    // TH2D *h_A2 = (TH2D*)h_migr->GetHistogram();
+
+    // // Calo_B1
+    // h_migr -> SetName("h_B1");
+    // h_migr -> GenerateHistogram();
+    // TH2D *h_B1 = (TH2D*)h_migr->GetHistogram();
+
+    // // Calo_B2
+    // h_migr -> SetName("h_B2");
+    // h_migr -> GenerateHistogram();
+    // TH2D *h_B2 = (TH2D*)h_migr->GetHistogram();
+
+
+    // cout << "Filling Migration Matrices" << endl;
+    // Edep -> Draw("Calo_A1:Egen>>h_A1", GoodEvents_photons_PID_1_NoVB.Data(), "goff");
     
-    cout << "Filling Migration Matrices" << endl;
-    Edep -> Draw("Calo_A2:Egen>>h_A2", GoodEvents_photons_PID_2_NoVB.Data(), "goff");
+    // cout << "Filling Migration Matrices" << endl;
+    // Edep -> Draw("Calo_A2:Egen>>h_A2", GoodEvents_photons_PID_2_NoVB.Data(), "goff");
     
-    cout << "Filling Migration Matrices" << endl;
-    Edep -> Draw("Calo_B1:Egen>>h_B1", GoodEvents_GBM_1_NoVB.Data(), "goff");
+    // cout << "Filling Migration Matrices" << endl;
+    // Edep -> Draw("Calo_B1:Egen>>h_B1", GoodEvents_GBM_1_NoVB.Data(), "goff");
     
-    cout << "Filling Migration Matrices" << endl;
-    Edep -> Draw("Calo_B2:Egen>>h_B2", GoodEvents_GBM_2_NoVB.Data(), "goff");
+    // cout << "Filling Migration Matrices" << endl;
+    // Edep -> Draw("Calo_B2:Egen>>h_B2", GoodEvents_GBM_2_NoVB.Data(), "goff");
 
 
 
-    cout << "Normalizing Migration Matrices" << endl;
-    Normalize_TH2D(h_A1);
-    Normalize_TH2D(h_A2);
-    Normalize_TH2D(h_B1);
-    Normalize_TH2D(h_B2);
+    // cout << "Normalizing Migration Matrices" << endl;
+    // Normalize_TH2D(h_A1);
+    // Normalize_TH2D(h_A2);
+    // Normalize_TH2D(h_B1);
+    // Normalize_TH2D(h_B2);
 
 
-    h_A1 -> SetStats(0);
-    h_A2 -> SetStats(0);
-    h_B1 -> SetStats(0);
-    h_B2 -> SetStats(0);
+    // h_A1 -> SetStats(0);
+    // h_A2 -> SetStats(0);
+    // h_B1 -> SetStats(0);
+    // h_B2 -> SetStats(0);
 
-    h_A1 -> SetTitle("");
-    h_A1 -> SetXTitle("E_{gen} [MeV]");
-    h_A1 -> SetYTitle("E_{det} Calo_A1 [MeV]");
+    // h_A1 -> SetTitle("");
+    // h_A1 -> SetXTitle("E_{gen} [MeV]");
+    // h_A1 -> SetYTitle("E_{det} Calo_A1 [MeV]");
 
-    h_A2 -> SetTitle("");
-    h_A2 -> SetXTitle("E_{gen} [MeV]");
-    h_A2 -> SetYTitle("E_{det} Calo_A2 [MeV]");
+    // h_A2 -> SetTitle("");
+    // h_A2 -> SetXTitle("E_{gen} [MeV]");
+    // h_A2 -> SetYTitle("E_{det} Calo_A2 [MeV]");
 
-    h_B1 -> SetTitle("");
-    h_B1 -> SetXTitle("E_{gen} [MeV]");
-    h_B1 -> SetYTitle("E_{det} Calo_B1 [MeV]");
+    // h_B1 -> SetTitle("");
+    // h_B1 -> SetXTitle("E_{gen} [MeV]");
+    // h_B1 -> SetYTitle("E_{det} Calo_B1 [MeV]");
 
-    h_B2 -> SetTitle("");
-    h_B2 -> SetXTitle("E_{gen} [MeV]");
-    h_B2 -> SetYTitle("E_{det} Calo_B2 [MeV]");
+    // h_B2 -> SetTitle("");
+    // h_B2 -> SetXTitle("E_{gen} [MeV]");
+    // h_B2 -> SetYTitle("E_{det} Calo_B2 [MeV]");
 
-    TCanvas *c2 = new TCanvas("c2", "c2", 1000, 1000);
-    c2 -> Divide(2, 2);
-    c2 -> cd(1);
-    gPad -> SetLogx();
-    gPad -> SetLogy();
-    h_A1 -> Draw("colz");
-    c2 -> cd(2);
-    h_B1 -> Draw("colz");
-    gPad -> SetLogx();
-    gPad -> SetLogy();
-    c2 -> cd(3);
-    h_B2 -> Draw("colz");
-    gPad -> SetLogx();
-    gPad -> SetLogy();
-    c2 -> cd(4);
-    h_A2 -> Draw("colz");
-    gPad -> SetLogx();
-    gPad -> SetLogy();
+    // TCanvas *c2 = new TCanvas("c2", "c2", 1000, 1000);
+    // c2 -> Divide(2, 2);
+    // c2 -> cd(1);
+    // gPad -> SetLogx();
+    // gPad -> SetLogy();
+    // h_A1 -> Draw("colz");
+    // c2 -> cd(2);
+    // h_B1 -> Draw("colz");
+    // gPad -> SetLogx();
+    // gPad -> SetLogy();
+    // c2 -> cd(3);
+    // h_B2 -> Draw("colz");
+    // gPad -> SetLogx();
+    // gPad -> SetLogy();
+    // c2 -> cd(4);
+    // h_A2 -> Draw("colz");
+    // gPad -> SetLogx();
+    // gPad -> SetLogy();
 
-    h_A1 -> SaveAs("A1.root");
-    h_A2 -> SaveAs("A2.root");
-    h_B1 -> SaveAs("B1.root");
-    h_B2 -> SaveAs("B2.root");
-
-
-
-
-
+    // h_A1 -> SaveAs("A1.root");
+    // h_A2 -> SaveAs("A2.root");
+    // h_B1 -> SaveAs("B1.root");
+    // h_B2 -> SaveAs("B2.root");
 
 
 

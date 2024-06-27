@@ -1,3 +1,6 @@
 build
-*.root
+DST
+DST_Acc
+DST_PID
+DST2
 .vscode

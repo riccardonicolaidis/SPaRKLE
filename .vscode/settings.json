@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.mac": "shellscript",
         "GeometricalFactor_CZT.C": "cpp",
         "PID.C": "cpp",
         "DeltaE_E_plot.C": "cpp",
@@ -24,6 +25,7 @@
         "MuonMip.C": "cpp",
         "Resolutions.C": "cpp",
         "Charged_Particles.C": "cpp",
-        "Photons.C": "cpp"
+        "Photons.C": "cpp",
+        "Plots.C": "cpp"
     }
 }

@@ -14,9 +14,13 @@
 #include "TLegend.h"
 #include "TH1DLog.h"
 #include "TChain.h"
-
+#include "TLine.h"
+#include "TText.h"
 
 #include "TH1DLog.h"
+#include "TH2DLog.h"
+#include "TH2DLogX.h"
+
 
 using namespace std;
 
@@ -47,10 +51,10 @@ int Charged_Particles()
     // Set the resolution of the detector
     double GAGG_Res = 0.1; // %
     double Plastic_Res = 0.3; // %
-    double SD_Res = 6e-3; //MeV
+    double SD_Res = 7e-3; //MeV
 
 
-    double Threshold_GAGG = 0.01; // MeV
+    double Threshold_GAGG = 0.02; // MeV
     double Threshold_Plastic = 0.05; // MeV
     double Threshold_SD = 0.04; // MeV
 
@@ -76,6 +80,20 @@ int Charged_Particles()
         trees[i]->SetAlias("gSD1", Form("(SD1 + (TMath::Sin(2 *pi*rndm)*sqrt(-2*log(rndm)))*%g)", SD_Res));
         trees[i]->SetAlias("gSD2", Form("(SD2 + (TMath::Sin(2 *pi*rndm)*sqrt(-2*log(rndm)))*%g)", SD_Res));
 
+
+        trees[i]->SetAlias("Etot1", Form("(Calo_A1+SD1)"));
+        trees[i]->SetAlias("Etot2", Form("(Calo_A2+SD2)"));
+
+        trees[i]->SetAlias("gEtot1", Form("(gCalo_A1+gSD1)"));
+        trees[i]->SetAlias("gEtot2", Form("(gCalo_A2+gSD2)"));
+
+        trees[i] -> SetAlias("PID1", Form("TMath::Log10(Etot1*SD1)"));
+        trees[i] -> SetAlias("PID2", Form("TMath::Log10(Etot2*SD2)"));
+
+
+        trees[i]->SetAlias("gPID1", Form("TMath::Log10(gEtot1*gSD1)"));
+        trees[i]->SetAlias("gPID2", Form("TMath::Log10(gEtot2*gSD2)"));
+
         trees[i]->SetAlias("gVT", Form("(VT + (TMath::Sin(2 *pi*rndm)*sqrt(-2*log(rndm)))*%g*VT)",Plastic_Res));
         trees[i]->SetAlias("gVB", Form("(VB + (TMath::Sin(2 *pi*rndm)*sqrt(-2*log(rndm)))*%g*VB)", Plastic_Res));
         trees[i]->SetAlias("gVL0", Form("(VL0 + (TMath::Sin(2 *pi*rndm)*sqrt(-2*log(rndm)))*%g*VL0)", Plastic_Res));
@@ -99,6 +117,191 @@ int Charged_Particles()
 
     TString GoodEvents_gGBM_2 = Form("(gCalo_B2 > %g) && (gVT < %g) && (gVB < %g) && (gVL0 < %g) && (gVL1< %g) && (gVL2 < %g) && (gVL3< %g) ", Threshold_GAGG, Threshold_Plastic, Threshold_Plastic, Threshold_Plastic, Threshold_Plastic, Threshold_Plastic, Threshold_Plastic);
     TString GoodEvents_GBM_2 = Form("(Calo_B2 > %g) && (VT < %g) && (VB < %g) && (VL0 < %g) && (VL1< %g) && (VL2 < %g) && (VL3< %g) ", Threshold_GAGG, Threshold_Plastic, Threshold_Plastic, Threshold_Plastic, Threshold_Plastic, Threshold_Plastic, Threshold_Plastic);
+
+
+
+
+    // // Particle Identification Plot
+    // // I want to retrieve the maximum value of gSD1 and gSD2
+    // int NbinsX = 300;
+    // int NbinsY = 300;
+
+    // vector<double> gSD_max;
+    // vector<double> gCalo_A_max;
+
+    // for(int i = 0; i < trees.size(); ++i)
+    // {
+    //     trees[i] -> Draw("gSD1:gCalo_A1", GoodEvents_PID_1, "goff");
+    //     double gSD1_max = TMath::MaxElement(trees[i]->GetSelectedRows(), trees[i]->GetV1());
+    //     double gCalo_A1_max = TMath::MaxElement(trees[i]->GetSelectedRows(), trees[i]->GetV2());
+
+    //     cout << "gSD1_max: " << gSD1_max << endl;
+    //     cout << "gCalo_A1_max: " << gCalo_A1_max << endl;
+
+
+    //     trees[i] -> Draw("gSD2:gCalo_A2", GoodEvents_PID_2, "goff");
+    //     double gSD2_max = TMath::MaxElement(trees[i]->GetSelectedRows(), trees[i]->GetV1());
+    //     double gCalo_A2_max = TMath::MaxElement(trees[i]->GetSelectedRows(), trees[i]->GetV2());
+
+
+    //     cout << "gSD2_max: " << gSD2_max << endl;
+    //     cout << "gCalo_A2_max: " << gCalo_A2_max << endl;
+
+    //     gSD_max.push_back(TMath::Max(gSD1_max, gSD2_max));
+    //     gCalo_A_max.push_back(TMath::Max(gCalo_A1_max, gCalo_A2_max));
+    // }
+
+    // double gSD_max_tot = TMath::MaxElement(gSD_max.size(), &gSD_max[0]);
+    // double gCalo_A_max_tot = TMath::MaxElement(gCalo_A_max.size(), &gCalo_A_max[0]);
+
+
+    // // Setting maximum and minima of the histogram and the figure
+    // double xmin = Threshold_GAGG*0.8;
+    // double xmax = gCalo_A_max_tot;
+    // double ymin = Threshold_SD*0.8;
+    // double ymax = gSD_max_tot;
+
+
+
+    // TH2DLog* hPID = new TH2DLog();
+    // hPID -> SetXAxis(Threshold_GAGG*0.8, gCalo_A_max_tot, NbinsX);
+    // hPID -> SetYAxis(Threshold_SD*0.8, gSD_max_tot, NbinsY);
+    // hPID -> SetName("hPID");
+    // hPID -> SetTitle("");
+    // hPID -> SetXTitle("Energy Calo_Ai [MeV]");
+    // hPID -> SetYTitle("Energy SDi [MeV]");
+    // hPID -> GenerateHistogram();
+
+
+    
+    // TH2D *hPID_0 = (TH2D*)hPID->GetHistogram();
+
+    // for(int i = 0; i < trees.size(); ++i)
+    // {
+    //     trees[i] -> Draw("gSD1:gCalo_A1 >> +hPID", GoodEvents_PID_1, "goff");
+    //     trees[i] -> Draw("gSD2:gCalo_A2 >> +hPID", GoodEvents_PID_2, "goff");
+    // }
+
+    // cout << GoodEvents_PID_1 << endl;
+    // cout << GoodEvents_PID_2 << endl;
+
+    // TCanvas* c0 = new TCanvas("c0", "PID", 1200, 600);
+    // c0 -> Divide(2, 1);
+    // c0 -> cd(1);
+    // hPID_0 -> Draw("colz");
+    // hPID_0 -> SetStats(0);
+
+    // // Horizontal line for displaying the hypothetical threshold on SD
+    // TLine* line1 = new TLine(xmin, Threshold_SD, xmax, Threshold_SD);
+    // line1 -> SetLineColor(kRed);
+    // line1 -> SetLineWidth(4);
+    // line1 -> SetLineStyle(9);
+    // line1 -> Draw();
+
+
+    // // Vertical line for displaying the hypothetical threshold on Calo_A
+    // TLine* line2 = new TLine(Threshold_GAGG, ymin, Threshold_GAGG, ymax);
+    // line2 -> SetLineColor(kMagenta);
+    // line2 -> SetLineWidth(4);
+    // line2 -> SetLineStyle(10);
+    // line2 -> Draw();
+
+
+    // TLegend* legend0 = new TLegend(0.1, 0.7, 0.3, 0.9);
+    // legend0->AddEntry(line1, Form("Threshold Silicon = %g keV",Threshold_SD*1e3), "l");
+    // legend0->AddEntry(line2, Form("Threshold Calorimeter = %g keV",Threshold_GAGG*1e3), "l");
+
+    // legend0->Draw();
+
+    // gPad -> SetLogx();
+    // gPad -> SetLogy();
+    // gPad -> SetLogz();
+    // gPad -> SetGrid();
+    // c0 -> SaveAs("PID.png");
+
+
+
+
+    // // Particle Identification Plot with total energy on the x-axis
+    // // PID is the log(Delta_E*E_tot)
+    // vector<double> gPID_max;
+    // vector<double> gPID_min;
+    // vector<double> gE_tot_max;
+    // vector<double> gE_tot_min;
+
+
+    // for(int i = 0; i < trees.size(); ++i)
+    // {
+    //     trees[i] -> Draw("gPID1:gEtot1", GoodEvents_PID_1, "goff");
+    //     double gPID1_max = TMath::MaxElement(trees[i]->GetSelectedRows(), trees[i]->GetV1());
+    //     double gE_tot1_max = TMath::MaxElement(trees[i]->GetSelectedRows(), trees[i]->GetV2());
+
+    //     double gPID1_min = TMath::MinElement(trees[i]->GetSelectedRows(), trees[i]->GetV1());
+    //     double gE_tot1_min = TMath::MinElement(trees[i]->GetSelectedRows(), trees[i]->GetV2());
+
+    //     cout << "gPID1_max: " << gPID1_max << endl;
+    //     cout << "gE_tot1_max: " << gE_tot1_max << endl;
+
+    //     cout << "gPID1_min: " << gPID1_min << endl;
+    //     cout << "gE_tot1_min: " << gE_tot1_min << endl;
+
+    //     trees[i] -> Draw("gPID2:gEtot2", GoodEvents_PID_2, "goff");
+    //     double gPID2_max = TMath::MaxElement(trees[i]->GetSelectedRows(), trees[i]->GetV1());
+    //     double gE_tot2_max = TMath::MaxElement(trees[i]->GetSelectedRows(), trees[i]->GetV2());
+
+    //     double gPID2_min = TMath::MinElement(trees[i]->GetSelectedRows(), trees[i]->GetV1());
+    //     double gE_tot2_min = TMath::MinElement(trees[i]->GetSelectedRows(), trees[i]->GetV2());
+
+    //     cout << "gPID2_max: " << gPID2_max << endl;
+    //     cout << "gE_tot2_max: " << gE_tot2_max << endl;
+
+    //     cout << "gPID2_min: " << gPID2_min << endl;
+    //     cout << "gE_tot2_min: " << gE_tot2_min << endl;
+
+    //     gPID_max.push_back(TMath::Max(gPID1_max, gPID2_max));
+    //     gE_tot_max.push_back(TMath::Max(gE_tot1_max, gE_tot2_max));
+
+    //     gPID_min.push_back(TMath::Min(gPID1_min, gPID2_min));
+    //     gE_tot_min.push_back(TMath::Min(gE_tot1_min, gE_tot2_min));
+    // }
+
+
+    // ymax = TMath::MaxElement(gPID_max.size(), &gPID_max[0]);
+    // xmax = TMath::MaxElement(gE_tot_max.size(), &gE_tot_max[0]);
+
+    // ymin = TMath::MinElement(gPID_min.size(), &gPID_min[0]);
+    // xmin = TMath::MinElement(gE_tot_min.size(), &gE_tot_min[0]);
+
+    // NbinsX = 400;
+    // NbinsY = 400;
+
+    // TH2DLogX* hPID_Etot = new TH2DLogX();
+    // hPID_Etot -> SetXAxis(xmin, xmax, NbinsX);
+    // hPID_Etot -> SetYAxis(ymin, ymax, NbinsY);
+    // hPID_Etot -> SetName("hPID_Etot");
+    // hPID_Etot -> SetTitle("");
+    // hPID_Etot -> SetXTitle("Total Energy [MeV]");
+    // hPID_Etot -> SetYTitle("PID_{parameter}");
+    // hPID_Etot -> GenerateHistogram();
+
+    // TH2D *hPID_Etot_0 = (TH2D*)hPID_Etot->GetHistogram();
+
+    // for(int i = 0; i < trees.size(); ++i)
+    // {
+    //     trees[i] -> Draw("gPID1:gEtot1 >> +hPID_Etot", GoodEvents_PID_1, "goff");
+    //     trees[i] -> Draw("gPID2:gEtot2 >> +hPID_Etot", GoodEvents_PID_2, "goff");
+    // }
+
+    // c0 -> cd(2);
+    // hPID_Etot_0 -> Draw("colz");
+    // hPID_Etot_0 -> SetStats(0);
+    // gPad -> SetLogx();
+    // gPad -> SetLogz();
+    // gPad -> SetGrid();
+
+
+
+    // return 0;
 
 
 

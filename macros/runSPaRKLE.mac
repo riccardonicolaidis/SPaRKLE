@@ -1,44 +1,48 @@
 
 /cuts/setLowEdge 100 eV
-
 /run/initialize 
 
 
 
-/gps/pos/type Plane
 
-# RUN 1
-/gps/pos/shape Rectangle
-/gps/pos/centre 0. 0. -3.2 cm
-/gps/pos/halfx 5 cm
-/gps/pos/halfy 5 cm
-
-
-# RUN 2
-#/gps/pos/shape Circle
-#/gps/pos/radius 4 cm
-#/gps/pos/centre -2.5 2.5 -3.2 cm
+#   RUN 1 (option for the source shape)
+#/gps/pos/type Plane
+#/gps/pos/shape Rectangle
+#/gps/pos/centre 0. 0. -3.2 cm
+#/gps/pos/halfx 5 cm
+#/gps/pos/halfy 5 cm
 
 
-/gps/ang/type iso
-/gps/ang/mintheta 0 deg
-/gps/ang/maxtheta 90 deg
-/gps/ang/minphi 0 deg
-/gps/ang/maxphi 360 deg
+#   RUN 2 (option for the source shape)
+# /gps/pos/type Plane
+# /gps/pos/shape Circle
+# /gps/pos/radius 4 cm
+# /gps/pos/centre -2.5 2.5 -3.2 cm
 
 
-/gps/ene/type Pow
-/gps/ene/alpha -1
-
-
-
+#
+#   GEOMETRIC FACTOR CALCULATION
+#   Uncomment the following lines to run the simulation
+#
+#
+#/gps/ang/type iso
+#/gps/ang/mintheta 0 deg
+#/gps/ang/maxtheta 90 deg
+#/gps/ang/minphi 0 deg
+#/gps/ang/maxphi 360 deg
+#
+#
+#/gps/ene/type Pow
+#/gps/ene/alpha -1
+#
+#
 # Electron
 #/NameOfFile/NameOfFile ../DST_Acc/e
 #/gps/particle e-
 #/gps/ene/min 0.1 MeV
 #/gps/ene/max 50 MeV
 #/run/beamOn 100000000
-
+#
 # Proton
 #/NameOfFile/NameOfFile ../DST_Acc/p
 #/gps/particle proton
@@ -49,18 +53,51 @@
 
 
 
-# gamma
-/NameOfFile/NameOfFile ../DST_Acc/gamma_2
-/gps/pos/shape Rectangle
-/gps/pos/centre 0. 0. -3.2 cm
-/gps/pos/halfx 6 cm
-/gps/pos/halfy 6 cm
-/gps/ang/type iso
-/gps/ang/mintheta 0 deg
-/gps/ang/maxtheta 0 deg
-/gps/ang/minphi 0 deg
-/gps/ang/maxphi 360 deg
-/gps/particle gamma
-/gps/ene/min 10 keV
-/gps/ene/max 500 MeV
-/run/beamOn 10000000
+# GAMMA RADIATION
+# For effective area calculation
+#
+# Uncomment the following lines to run the simulation
+#
+#
+#/NameOfFile/NameOfFile ../DST_Acc/gamma_2
+#/gps/pos/shape Rectangle
+#/gps/pos/centre 0. 0. -3.2 cm
+#/gps/pos/halfx 6 cm
+#/gps/pos/halfy 6 cm
+#/gps/ang/type iso
+#/gps/ang/mintheta 0 deg
+#/gps/ang/maxtheta 0 deg
+#/gps/ang/minphi 0 deg
+#/gps/ang/maxphi 360 deg
+#/gps/particle gamma
+#/gps/ene/min 10 keV
+#/gps/ene/max 500 MeV
+#/run/beamOn 10000000
+
+
+
+# PARTICLE IDENTIFICATION PLOTS
+# Uncomment the following lines to run the simulation
+# This part is for producing the plots of the particle identification
+# The beam will be focused on the Silicon Detector
+
+/gps/position -4. 4. -5. cm
+/gps/direction 1. -1. 2.
+
+/gps/ene/type Pow
+/gps/ene/alpha -1
+
+/NameOfFile/NameOfFile ../DST_PID/e
+/gps/particle e-
+/gps/ene/min 0.1 MeV
+/gps/ene/max 50 MeV
+/run/beamOn 1000000
+
+/NameOfFile/NameOfFile ../DST_PID/p
+/gps/particle proton
+/gps/ene/min 3 MeV
+/gps/ene/max 200 MeV
+/run/beamOn 1000000
+
+
+
